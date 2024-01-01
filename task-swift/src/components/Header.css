@@ -1,0 +1,49 @@
+.navbar {
+    border-bottom: 2px solid black;
+}
+
+.navbar-brand {
+    padding-left: 2em;
+}
+
+.navbar-toggler {
+    padding-right: 2em;
+}
+
+.navbar-nav {
+    gap: 2em;
+}
+
+.nav-item button {
+    border-radius: 20px !important;
+    border: 2px solid;
+    padding: 0.5em 2.5em;
+    font-size: 1em;
+    font-weight: 500;
+    background-color: var(--offwhite);
+    cursor: pointer;
+    transition: border-color 1s;
+}
+
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+        display: flex!important;
+        justify-content: flex-end;
+        flex-basis: auto;
+        padding-right: 1em;
+    }
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        flex-basis: auto;
+        padding-left: 1em;
+    }
+
+    .nav-item button {
+        padding: 0.5em 3.5em;
+    }
+}
