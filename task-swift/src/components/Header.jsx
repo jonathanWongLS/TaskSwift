@@ -6,14 +6,45 @@ import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
+import Form from "react-bootstrap/Form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Header.css";
 
 const UserForm = ({ option }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false || password !== repeatPassword) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    setValidated(true);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    setValidated(false);
+  }
+
+  const handlePasswordChange = (event) => {
+    console.log(event);
+    setPassword(event.target.value);
+    setValidated(false);
+  }
+
+  const handleRepeatPasswordChange = (event) => {
+    setRepeatPassword(event.target.value);
+    setValidated(false);
+  }
 
   return (
-    <form className="account-form" onSubmit={(e) => e.preventDefault()}>
+    <Form noValidate validated={validated} className="account-form" onSubmit={handleSubmit}>
       <div className={'account-form-fields ' + (option === 1 ? 'sign-in' : (option === 2 ? 'sign-up' : 'forgot'))}>
         <InputGroup>
           <FormControl
@@ -21,8 +52,12 @@ const UserForm = ({ option }) => {
             type="text"
             pattern=".+@.+\..{2,}"
             placeholder="E-mail"
+            value={email}
+            onChange={handleEmailChange}
             required
           />
+          <Form.Control.Feedback type="valid">Email looks good!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Email is invalid.</Form.Control.Feedback>
         </InputGroup>
         <InputGroup>
           <FormControl
@@ -33,32 +68,48 @@ const UserForm = ({ option }) => {
             placeholder="Password"
             required={option === 1 || option === 2}
             disabled={option === 3}
-            style={{ height: '3.2rem' }} 
+            style={{ height: '3.2rem' }}
+            onChange={handlePasswordChange} 
           />
           <Button
+            className="showPassword"
             variant="outline-secondary"
             onClick={() => setShowPassword(!showPassword)}
             style={{ height: '3.2rem' }}
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </Button>
+          <Form.Control.Feedback type="valid">Password looks good!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Password is invalid.</Form.Control.Feedback>
         </InputGroup>
         <InputGroup>
           <FormControl
             id="repeat-password"
             name="repeat-password"
-            type={showPassword ? "text" : "password"}
+            type={showRepeatedPassword ? "text" : "password"}
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             placeholder="Repeat Password"
             required={option === 2}
             disabled={option === 1 || option === 3}
+            onChange={handleRepeatPasswordChange}
+            style={{ height: '3.2rem' }}
           />
+          <Button
+            className="showPassword"
+            variant="outline-secondary"
+            onClick={() => setShowRepeatedPassword(!showRepeatedPassword)}
+            style={{ height: '3.2rem' }}
+          >
+            {showRepeatedPassword ? <FaEyeSlash /> : <FaEye />}
+          </Button>
+          <Form.Control.Feedback type="valid">Password matches!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Passwords do not match.</Form.Control.Feedback>
         </InputGroup>
       </div>
       <button className="btn-submit-form" type="submit">
         {option === 1 ? "Sign in" : option === 2 ? "Sign up" : "Reset password"}
       </button>
-    </form>
+    </Form>
   )
 }
 
@@ -72,20 +123,7 @@ const Header = () => {
     setFormData({'email': '', 'password': ''})
   };
   const handleShow = () => setShow(true);
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    setValidated(true);
-  };
-  const handleShowPassword = () => {
-    setShowPassword((showPassword) => !showPassword);
-  };
 
-  console.log(formData);
- 
   useEffect(() => {
     document.title = "Dashboard - TaskSwift";
   }, []);
