@@ -3,16 +3,68 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Header.css";
 
+const UserForm = ({ option }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  return (
+    <form className="account-form" onSubmit={(e) => e.preventDefault()}>
+      <div className={'account-form-fields ' + (option === 1 ? 'sign-in' : (option === 2 ? 'sign-up' : 'forgot'))}>
+        <InputGroup>
+          <FormControl
+            id="email"
+            type="text"
+            pattern=".+@.+\..{2,}"
+            placeholder="E-mail"
+            required
+          />
+        </InputGroup>
+        <InputGroup>
+          <FormControl
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            placeholder="Password"
+            required={option === 1 || option === 2}
+            disabled={option === 3}
+            style={{ height: '3.2rem' }} 
+          />
+          <Button
+            variant="outline-secondary"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{ height: '3.2rem' }}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </Button>
+        </InputGroup>
+        <InputGroup>
+          <FormControl
+            id="repeat-password"
+            name="repeat-password"
+            type={showPassword ? "text" : "password"}
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            placeholder="Repeat Password"
+            required={option === 2}
+            disabled={option === 1 || option === 3}
+          />
+        </InputGroup>
+      </div>
+      <button className="btn-submit-form" type="submit">
+        {option === 1 ? "Sign in" : option === 2 ? "Sign up" : "Reset password"}
+      </button>
+    </form>
+  )
+}
+
 const Header = () => {
   const [show, setShow] = useState(false);
-  const [validated, setValidated] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [formOption, setFormOption] = useState(1);
   const [formData, setFormData] = useState();
 
   const handleClose = () => {
@@ -30,18 +82,6 @@ const Header = () => {
   };
   const handleShowPassword = () => {
     setShowPassword((showPassword) => !showPassword);
-  };
-
-  const handleEmailChange = (newValue) => {
-    setFormData(prevData => ({
-      ...prevData, ['email']: newValue
-    }));
-  };
-
-  const handlePasswordChange = (newValue) => {
-    setFormData(prevData => ({
-      ...prevData, ['password']: newValue
-    }));
   };
 
   console.log(formData);
@@ -74,75 +114,26 @@ const Header = () => {
                   variant="outline-primary"
                   onClick={() => handleShow(true)}
                 >
-                  Login
+                  Sign In
                 </Button>
                 <Modal show={show} onHide={handleClose} centered>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                  </Modal.Header>
                   <Modal.Body>
-                    <Form
-                      noValidate
-                      validated={validated}
-                      onSubmit={handleSubmit}
-                    >
-                      <Form.Group controlId="emailValidation">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                          required
-                          type="text"
-                          pattern=".+@.+\..{2,}"
-                          onChange={e => handleEmailChange(e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          Please provide a valid email.
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="valid">
-                          Email is valid!
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                      <Form.Group controlId="passwordValidation">
-                        <Form.Label>Password</Form.Label>
-                        <InputGroup>
-                          <Form.Control
-                            required
-                            type={showPassword ? "text" : "password"}
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                            onChange={e => handlePasswordChange(e.target.value)}
-                          />
-                          <Button onClick={handleShowPassword}>
-                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                          </Button>
-                        </InputGroup>
-                        <Form.Text>
-                          <p>Password must contain the following: A <b>lowercase</b> letter, a <b>capital (uppercase)</b> letter, a <b>number</b>, and a minimum <b>8 characters</b> </p>
-                        </Form.Text>
-                        <Form.Control.Feedback type="invalid">
-                          Please provide a valid password.
-                        </Form.Control.Feedback>
-                        <Form.Control.Feedback type="valid">
-                          Password is valid!
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Check
-                          required
-                          label="Agree to terms and conditions"
-                          feedback="You must agree before submitting."
-                          feedbackType="invalid"
-                        />
-                      </Form.Group>
-                      <br />
-                    </Form>
+                    <div className="form-container">
+                      <header>
+                        <div className={'header-headings ' + (formOption === 1 ? 'sign-in' : (formOption === 2 ? 'sign-up' : 'forgot')) }>
+                          <span>Sign in to your account</span>
+                          <span>Create an account</span>
+                          <span>Reset your password</span>
+                        </div>
+                      </header>
+                      <span className="options">
+                        <p className={formOption === 1 ? 'active' : ''} onClick={() => setFormOption(1)}>Sign in</p>
+                        <p className={formOption === 2 ? 'active' : ''} onClick={() => setFormOption(2)}>Sign up</p>
+                        <p className={formOption === 3 ? 'active' : ''} onClick={() => setFormOption(3)}>Forgot Password</p>
+                      </span>
+                      <UserForm option={ formOption }/>
+                    </div>
                   </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                      Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
-                      Save Changes
-                    </Button>
-                  </Modal.Footer>
                 </Modal>
               </Nav.Item>
             </Nav>
