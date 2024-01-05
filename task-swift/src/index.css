@@ -19,6 +19,10 @@
   --neongreen: #DDEC68;
 }
 
+input {
+  color: black;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     background-color: var(--offwhite);
