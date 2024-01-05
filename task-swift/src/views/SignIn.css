@@ -1,0 +1,78 @@
+.signin-form-container {
+    display: grid;
+    place-items: center;
+    padding-bottom: 15em;
+}
+
+.signin-form-container .form-control {
+    border-radius: 20px;
+    padding: 0.5em 3em;
+}
+
+.signin-btn-submit {
+    background-color: var(--neongreen) !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+    font-weight: 500 !important;
+    border-radius: 20px !important;
+    padding: 0.5em 8em !important;
+}
+
+.signin-form-bg {
+    background-image: url("../assets/signin-bg.jpg");
+}
+
+.signin-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.eye-icon {
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+#email {
+    background-color: transparent;
+    border-width: 1px;
+    padding: .5em 8em;
+    border-radius: 20px;
+}
+
+#password {
+    background-color: transparent;
+    border-width: 1px;
+    padding: .5em 8em;
+    border-radius: 20px;
+}
+
+.signin-submit-btn {
+    display: flex;
+    align-items: center;
+    padding: .5em 12.5em !important;
+    border-radius: 20px !important;
+    background-color: var(--neongreen) !important;
+    border: none !important;
+    color: #000000 !important;
+    font-weight: 500 !important;
+}
+
+.email-label {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.password-label {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.tnc-signuplink {
+    display: flex;
+    gap: 2em;
+}
