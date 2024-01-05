@@ -5,13 +5,18 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import Dashboard from './views/Dashboard';
+import SignIn from './views/SignIn';
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
   {
     path: "/dashboard",
-    element: <Dashboard/>,
+    element: <Dashboard />,
+  },
+  {
+    path: "/sign-in",
+    element: <SignIn />
   }
 ])
 
