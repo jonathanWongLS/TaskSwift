@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Dashboard from './views/Dashboard';
 import SignIn from './views/SignIn';
+import SignUp from './views/SignUp';
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-in",
     element: <SignIn />
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp />
   }
 ])
 
