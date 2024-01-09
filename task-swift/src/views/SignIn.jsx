@@ -48,16 +48,16 @@ const SignIn = () => {
   };
 
   const handleSignin = (e) => {
+    e.preventDefault();
     var errors = {};
     errors = validatePassword(formData.password);
-    if (!errors.email.length > 0 && errors.password.length > 0) {
+    if (Object.keys(errors).length === 0) {
         // TODO: If nothing is wrong, proceed with steps with email and password obtained!
     }
     else {
         setErrors(errors);
     }
 
-    e.preventDefault();
   }
 
   return (
