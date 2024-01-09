@@ -1,78 +1,47 @@
-.signin-form-container {
-    display: grid;
-    place-items: center;
-    padding-bottom: 15em;
-}
-
-.signin-form-container .form-control {
-    border-radius: 20px;
-    padding: 0.5em 3em;
-}
-
-.signin-btn-submit {
-    background-color: var(--neongreen) !important;
-    border-color: transparent !important;
-    color: #000000 !important;
-    font-weight: 500 !important;
-    border-radius: 20px !important;
-    padding: 0.5em 8em !important;
-}
-
-.signin-form-bg {
+.Auth-form-container {
     background-image: url("../assets/signin-bg.jpg");
-}
-
-.signin-form-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100vw;
     height: 100vh;
+    padding-bottom: 250px;
+    padding-left: 12%;
+    padding-right: 12%;
 }
 
-.eye-icon {
-    margin-left: -30px;
-    cursor: pointer;
+.Auth-form {
+    width: 420px;
+    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    border-radius: 8px;
+    color: white;
+    background-color: var(--offblack);
 }
 
-#email {
-    background-color: transparent;
-    border-width: 1px;
-    padding: .5em 8em;
-    border-radius: 20px;
+.Auth-form-content {
+    padding-left: 12%;
+    padding-right: 12%;
 }
 
-#password {
-    background-color: transparent;
-    border-width: 1px;
-    padding: .5em 8em;
-    border-radius: 20px;
+.Auth-form-title {
+    text-align: center;
+    margin-bottom: 1em;
 }
 
-.signin-submit-btn {
-    display: flex;
-    align-items: center;
-    padding: .5em 12.5em !important;
-    border-radius: 20px !important;
+.submit-btn {
     background-color: var(--neongreen) !important;
-    border: none !important;
-    color: #000000 !important;
-    font-weight: 500 !important;
+    color: var(--offblack) !important;
+    font-weight: 600 !important;
+    border-color: transparent !important;
 }
 
-.email-label {
-    font-weight: 500;
-    display: flex;
-    align-items: center;
+label {
+    font-size: 14px;
 }
 
-.password-label {
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-}
-
-.tnc-signuplink {
-    display: flex;
-    gap: 2em;
+.error {
+    margin-top: 5px;
+    color: lightcoral;
 }
