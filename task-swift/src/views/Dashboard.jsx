@@ -12,13 +12,13 @@ const Dashboard = () => {
       <Header />
       <div className="dashboard-container">
         <Row className="dashboard-row">
-          <Col sm={4} className="create-task-col-btn">
+          <Col sm={12} md={3} xl={4} className="create-task-col-btn">
             <Button variant="primary" className="create-task-btn">
               <FaPlus />{' '}
               <b>Create Task</b>
             </Button>
           </Col>
-          <Col sm={8} className="top-dashboard-cards">
+          <Col sm={12} md={9} xl={8} className="top-dashboard-cards">
             <Card className="text-center in-progress">
               <Card.Body>
                 <Row>
