@@ -31,17 +31,17 @@ const SignIn = () => {
     let errors = {};
 
     if (!formData.email) {
-        errors.email = "Email is required";
+      errors.email = "Email is required";
     } 
     else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)) {
-        errors.email = "Invalid Email Address!";
+      errors.email = "Invalid Email Address!";
     }
 
     if (!formData.password) {
-        errors.password = "Password is required";
+      errors.password = "Password is required";
     } 
     else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(formData.password)) {
-        errors.password = "Password needs to be 8 or more characters long, has at least on uppercase and a lowercase letter, and at least one digit "
+      errors.password = "Password needs to be 8 or more characters long, has at least on uppercase and a lowercase letter, and at least one digit "
     }
 
     return errors;
