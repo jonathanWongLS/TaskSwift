@@ -14,7 +14,7 @@ const Header = () => {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container className="navbar-container">
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/dashboard">
             <img height={60} width={60} src="taskswift-logo.svg" alt=""></img>
             TaskSwift
           </Navbar.Brand>
