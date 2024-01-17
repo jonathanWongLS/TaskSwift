@@ -46,12 +46,6 @@
     background-color: var(--btn-bg) !important;
 }
 
-.card {
-    width: 100%; 
-    padding: 0 10px;
-    border-radius: 10px !important;
-}
-
 @media screen and (max-width: 992px) {
     .dashboard-container {
         margin-left: 1em;
@@ -66,9 +60,5 @@
 
     .create-task-btn {
         width: 100%;
-    }
-
-    .card-title {
-        font-size: 1.05rem !important;
     }
 }

@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
+import SummaryCard from "../components/SummaryCard";
 import Button from "react-bootstrap/Button";
 import { FaPlus } from "react-icons/fa6";
 import "./Dashboard.css";
@@ -19,7 +19,15 @@ const Dashboard = () => {
             </Button>
           </Col>
           <Col sm={12} md={9} xl={8} className="top-dashboard-cards">
-            <Card className="text-center in-progress">
+            {[["In Progress", "progress-bar.svg", 3], ["Completed", "task-complete.svg", 3], ["Overdue", "expire.svg", 2]].map((cardDetails, index) => {
+              if (index === 0) {
+                return <SummaryCard key={index} cardTitle={cardDetails[0]} iconSrc={cardDetails[1]} value={index} darkBg={true} />
+              }
+              else {
+                return <SummaryCard key={index} cardTitle={cardDetails[0]} iconSrc={cardDetails[1]} value={index} darkBg={false} />
+              }
+            })}
+            {/* <Card className="text-center in-progress">
               <Card.Body>
                 <Row>
                   <Col lg={12} xl={4} className="top-dashboard-cards-col">
@@ -69,7 +77,7 @@ const Dashboard = () => {
                   </Col>
                 </Row>
               </Card.Body>
-            </Card>
+            </Card> */}
           </Col>
         </Row>
       </div>
