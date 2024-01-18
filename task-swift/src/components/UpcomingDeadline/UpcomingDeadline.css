@@ -37,7 +37,6 @@
 
 .upcoming-deadline-body {
     height: 100%;
-    flex-grow: 1;
     overflow-y: auto;
     padding-top: 0 !important;
 }
