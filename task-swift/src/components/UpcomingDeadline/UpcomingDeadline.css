@@ -58,9 +58,28 @@
 .upcoming-deadline-task-details-top {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
 }
 
 .upcoming-deadline-task-details-top h4 {
     margin-right: 10px;
+}
+
+@media screen and (max-width: 1215px) and (min-width: 768px) {
+    .upcoming-deadline-task-details-top {
+        flex-direction: column;
+    }
+
+    .upcoming-deadline-task {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+    .upcoming-deadline-task-details-bottom {
+        margin-top: .3rem;
+        padding-top: .3rem;
+        border-top: 2px solid rgba(0, 0, 0, .1);
+    }
 }

@@ -13,7 +13,8 @@ const UpcomingDeadline = ({deadlineDetails}) => {
                   <div key={key} className="upcoming-deadline-task">
                     <div className="upcoming-deadline-task-details-top">
                       <h4>{deadlineDetail[0]}</h4>
-                      <p><RxDot />{deadlineDetail[1]}</p>
+                      <RxDot />
+                      {deadlineDetail[1]}
                     </div>
                     <div className="upcoming-deadline-task-details-bottom">
                       <p>Remaining Time: <b>{deadlineDetail[2]}</b></p>
