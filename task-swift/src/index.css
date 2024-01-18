@@ -15,9 +15,10 @@
   -moz-osx-font-smoothing: grayscale;
 
   --offwhite: #F4F4F6;
-  --offblack: #26272C; 
+  --offblack: #26272C;
+  --light-grey: #DBDBDB; 
   --neongreen: #DDEC68;
-  --btn-bg: #0D99FF;
+  --btn-bg: #082235;
 }
 
 input {
