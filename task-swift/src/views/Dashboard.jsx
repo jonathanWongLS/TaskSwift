@@ -2,8 +2,9 @@ import Header from "../components/Header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import SummaryCard from "../components/SummaryCard";
+import UpcomingDeadline from "../components/UpcomingDeadline/UpcomingDeadline";
 import Button from "react-bootstrap/Button";
-import { FaPlus } from "react-icons/fa6";
+import { FaArrowRightLong } from "react-icons/fa6";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -13,9 +14,8 @@ const Dashboard = () => {
       <div className="dashboard-container">
         <Row className="dashboard-row">
           <Col sm={12} md={3} xl={4} className="create-task-col-btn">
-            <Button variant="primary" className="create-task-btn">
-              <FaPlus />{' '}
-              <b>Create Task</b>
+            <Button className="create-task-btn">
+              <b>View Projects</b>{'  '}<FaArrowRightLong />
             </Button>
           </Col>
           <Col sm={12} md={9} xl={8} className="top-dashboard-cards">
@@ -27,6 +27,14 @@ const Dashboard = () => {
                 return <SummaryCard key={index} cardTitle={cardDetails[0]} iconSrc={cardDetails[1]} value={index} darkBg={false} />
               }
             })}
+          </Col>
+        </Row>
+        <Row className="dashboard-row">
+          <Col sm={12} md={3} xl={4} className="">
+            <UpcomingDeadline />
+          </Col>
+          <Col sm={12} md={9} xl={8} className="">
+
           </Col>
         </Row>
       </div>

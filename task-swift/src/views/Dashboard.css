@@ -42,8 +42,9 @@
 .create-task-btn {
     width: 50%;
     padding: 1.3rem 1rem !important;
-    border-color: var(--btn-bg) !important;
-    background-color: var(--btn-bg) !important;
+    color: black !important;
+    background-color: var(--light-grey) !important;
+    border-color: black !important ;
 }
 
 @media screen and (max-width: 992px) {
