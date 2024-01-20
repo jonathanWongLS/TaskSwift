@@ -20,16 +20,16 @@ const Header = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="" id="basic-navbar-nav">
-            <Nav activeKey="/dashboard">
-              <Nav.Item>
+            <Nav className="header-nav" activeKey="/dashboard">
+              <Nav.Item className="header-nav-item">
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
+              <Nav.Item className="header-nav-item">
                 <Nav.Link activeKey="/projects" href="/projects">
                   Projects
                 </Nav.Link>
               </Nav.Item>
-              <Nav.Item>
+              <Nav.Item className="header-nav-item">
                 <Button
                   variant="outline-primary"
                   href="/sign-in"
