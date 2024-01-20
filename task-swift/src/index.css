@@ -21,6 +21,10 @@
   --btn-bg: #082235;
 }
 
+body {
+  background-color: #F4F4F6 !important;
+}
+
 input {
   color: black;
 }
