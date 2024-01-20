@@ -3,6 +3,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import SummaryCard from "../components/SummaryCard";
 import UpcomingDeadline from "../components/UpcomingDeadline/UpcomingDeadline";
+import ChartsTabs from "../components/ChartsTabs/ChartsTabs";
 import Button from "react-bootstrap/Button";
 import { FaArrowRightLong } from "react-icons/fa6";
 import "./Dashboard.css";
@@ -30,11 +31,11 @@ const Dashboard = () => {
           </Col>
         </Row>
         <Row className="dashboard-row">
-          <Col sm={12} md={3} xl={4} className="">
+          <Col sm={12} md={3} xl={4} className="upcoming-deadline-col" >
             <UpcomingDeadline />
           </Col>
-          <Col sm={12} md={9} xl={8} className="">
-
+          <Col sm={12} md={9} xl={8} className="charts-tabs-col">
+            <ChartsTabs />
           </Col>
         </Row>
       </div>
