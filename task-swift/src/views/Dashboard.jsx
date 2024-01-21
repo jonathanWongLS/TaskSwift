@@ -47,10 +47,10 @@ const Dashboard = () => {
             <Col sm={12} md={12} xl={4}>
               <Progress />
             </Col>
-            <Col sm={12} md={9} xl={6}>
+            <Col sm={12} md={12} xl={6}>
               <PriorityTasks />
             </Col>
-            <Col sm={12} md={3} xl={2}>Hey</Col>
+            <Col sm={12} md={12} xl={2}>Hey</Col>
         </Row>
       </div>
     </>
