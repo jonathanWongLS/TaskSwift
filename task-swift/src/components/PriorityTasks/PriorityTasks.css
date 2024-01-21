@@ -1,0 +1,21 @@
+.priority-tasks-card {
+    padding: 1rem;
+}
+
+.priority-tasks-card-title {
+    padding: .4rem;
+}
+
+.priority-tasks-tr {
+    font-weight: 300;
+}
+
+.task-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.task-deadline {
+    color: red !important;
+    font-weight: bold;
+}
