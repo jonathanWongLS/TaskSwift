@@ -7,6 +7,7 @@ import SummaryCard from "../components/SummaryCard";
 import UpcomingDeadline from "../components/UpcomingDeadline/UpcomingDeadline";
 import ChartsTabs from "../components/ChartsTabs/ChartsTabs";
 import Progress from "../components/Progress/Progress";
+import PriorityTasks from "../components/PriorityTasks/PriorityTasks";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -44,10 +45,12 @@ const Dashboard = () => {
         </Row>
         <Row className="dashboard-row">
             <Col sm={12} md={12} xl={4}>
-              <Progress/>
+              <Progress />
             </Col>
-            <Col sm={12} md={9} xl={5}>Hey</Col>
-            <Col sm={12} md={3} xl={3}>Hey</Col>
+            <Col sm={12} md={9} xl={6}>
+              <PriorityTasks />
+            </Col>
+            <Col sm={12} md={3} xl={2}>Hey</Col>
         </Row>
       </div>
     </>
