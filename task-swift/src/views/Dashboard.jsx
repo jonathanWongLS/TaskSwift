@@ -1,11 +1,15 @@
 import Header from "../components/Header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+
 import SummaryCard from "../components/SummaryCard";
 import UpcomingDeadline from "../components/UpcomingDeadline/UpcomingDeadline";
 import ChartsTabs from "../components/ChartsTabs/ChartsTabs";
-import Button from "react-bootstrap/Button";
+import Progress from "../components/Progress/Progress";
+
 import { FaArrowRightLong } from "react-icons/fa6";
+
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -31,12 +35,19 @@ const Dashboard = () => {
           </Col>
         </Row>
         <Row className="dashboard-row">
-          <Col sm={12} md={3} xl={4} className="upcoming-deadline-col" >
+          <Col sm={12} md={12} xl={4} className="upcoming-deadline-col" >
             <UpcomingDeadline />
           </Col>
-          <Col sm={12} md={9} xl={8} className="charts-tabs-col">
+          <Col sm={12} md={12} xl={8} className="charts-tabs-col">
             <ChartsTabs />
           </Col>
+        </Row>
+        <Row className="dashboard-row">
+            <Col sm={12} md={12} xl={4}>
+              <Progress/>
+            </Col>
+            <Col sm={12} md={9} xl={5}>Hey</Col>
+            <Col sm={12} md={3} xl={3}>Hey</Col>
         </Row>
       </div>
     </>

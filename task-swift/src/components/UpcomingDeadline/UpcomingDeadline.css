@@ -48,7 +48,7 @@
     justify-content: center;
 }
 
-@media screen and (max-width: 1215px) and (min-width: 768px) {
+@media screen and (max-width: 768px) {
     .upcoming-deadline-task-details-top {
         flex-direction: column;
     }
