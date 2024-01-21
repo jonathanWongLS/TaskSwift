@@ -9,7 +9,7 @@ const Progress = () => {
     <Card className="progress-card">
       <Card.Title className="progress-card-title">Progress</Card.Title>
       <Card.Body className="progress-card-body">
-        <Accordion defaultActiveKey="0" className="progress-accordion">
+        <Accordion className="progress-accordion">
           <Accordion.Item className="progress-accordion-item" eventKey="0">
             <Accordion.Header className="progress-accordion-header">
                 <h5>Ongoing</h5>
