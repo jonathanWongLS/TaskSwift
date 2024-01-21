@@ -1,13 +1,13 @@
-import Header from "../components/Header";
+import Header from "../../components/Header/Header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-import SummaryCard from "../components/SummaryCard";
-import UpcomingDeadline from "../components/UpcomingDeadline/UpcomingDeadline";
-import ChartsTabs from "../components/ChartsTabs/ChartsTabs";
-import Progress from "../components/Progress/Progress";
-import PriorityTasks from "../components/PriorityTasks/PriorityTasks";
+import SummaryCard from "../../components/SummaryCard/SummaryCard";
+import UpcomingDeadline from "../../components/UpcomingDeadline/UpcomingDeadline";
+import ChartsTabs from "../../components/ChartsTabs/ChartsTabs";
+import Progress from "../../components/Progress/Progress";
+import PriorityTasks from "../../components/PriorityTasks/PriorityTasks";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 

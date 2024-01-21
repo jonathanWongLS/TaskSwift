@@ -1,13 +1,13 @@
-import Header from "../components/Header";
-import { useState } from "react";
+import Header from "../../components/Header/Header";
 import { Form } from "react-bootstrap";
+import "./SignIn.css";
+import { useState } from "react";
 
-const SignUp = () => {
+const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    repeatPassword: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -27,62 +27,46 @@ const SignUp = () => {
     console.log(formData);
   };
 
-  const handleRepeatPasswordChange = (e) => {
-    e.preventDefault();
-    setFormData({ ...formData, repeatPassword: e.target.value });
-    console.log(formData);
-  };
-
   const validatePassword = () => {
     let errors = {};
 
     if (!formData.email) {
       errors.email = "Email is required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
-    ) {
+    } 
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)) {
       errors.email = "Invalid Email Address!";
     }
 
     if (!formData.password) {
       errors.password = "Password is required";
-    } else if (
-      !/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(formData.password)
-    ) {
-      errors.password =
-        "Password needs to be 8 or more characters long, has at least on uppercase and a lowercase letter, and at least one digit ";
-    }
-
-    if (
-      !formData.repeatPassword ||
-      formData.repeatPassword != formData.password
-    ) {
-      errors.repeatPassword = "Passwords must match";
+    } 
+    else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(formData.password)) {
+      errors.password = "Password needs to be 8 or more characters long, has at least on uppercase and a lowercase letter, and at least one digit "
     }
 
     return errors;
   };
 
-  const handleSignup = (e) => {
+  const handleSignin = (e) => {
     e.preventDefault();
     var errors = {};
     errors = validatePassword(formData.password);
-    console.log(errors);
     if (Object.keys(errors).length === 0) {
-      // TODO: If nothing is wrong, proceed with steps with email and password obtained!
-    } else {
-      setErrors(errors);
+        // TODO: If nothing is wrong, proceed with steps with email and password obtained!
+    }
+    else {
+        setErrors(errors);
     }
 
-  };
+  }
 
   return (
     <>
       <Header />
       <div className="Auth-form-container">
-        <form noValidate className="Auth-form" onSubmit={handleSignup}>
+        <form noValidate className="Auth-form" onSubmit={handleSignin}>
           <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign up</h3>
+            <h3 className="Auth-form-title">Sign in</h3>
             <div className="form-group email mt-3">
               <input
                 type="email"
@@ -102,21 +86,11 @@ const SignUp = () => {
                 onChange={handlePasswordChange}
               />
               <p className="error">{errors.password}</p>
-            </div>
-            <div className="form-group password mt-3 position-relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control mt-1 mb-1"
-                placeholder="Repeat password"
-                value={formData.repeatPassword}
-                onChange={handleRepeatPasswordChange}
-              />
-              <p className="error">{errors.repeatPassword}</p>
               <div className="eye-icon-container">
                 <Form.Group>
                   <Form.Check
                     type="checkbox"
-                    color="white"
+                    color="white" 
                     label="Show password"
                     onChange={handleShowPassword}
                   />
@@ -129,7 +103,7 @@ const SignUp = () => {
               </button>
             </div>
             <p className="forgot-password text-right mt-2">
-              <a href="/sign-in">Already have an account?</a>
+                <a href="/sign-up">Don&apos;t have an account?</a>
             </p>
           </div>
         </form>
@@ -138,4 +112,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
