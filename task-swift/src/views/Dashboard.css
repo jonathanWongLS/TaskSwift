@@ -3,6 +3,11 @@
     margin-right: 8em;
 }
 
+.dashboard-row {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+
 .top-dashboard-cards {
     display: flex;
     align-items: center;
