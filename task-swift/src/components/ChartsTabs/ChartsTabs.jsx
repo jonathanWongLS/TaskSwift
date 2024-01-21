@@ -112,7 +112,7 @@ const ChartsTabs = () => {
                 </Nav.Item>
             </Nav>
             {selectedGraph === 'task-completion-rate-event' && 
-                <ResponsiveContainer className="chart-responsive-container" width="100%" height={400}>
+                <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
                     <BarChart data={data} margin={{top: 50}}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -125,7 +125,7 @@ const ChartsTabs = () => {
                 </ResponsiveContainer>
             }
             {selectedGraph === 'project-progress-event' && 
-                <ResponsiveContainer className="chart-responsive-container" width="100%" height={400}>
+                <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
                     <LineChart data={data} margin={{top: 50}}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -138,7 +138,7 @@ const ChartsTabs = () => {
                 </ResponsiveContainer>
             }
             {selectedGraph === 'workload-distribution-event' &&
-                <ResponsiveContainer className="chart-responsive-container" width="100%" height={400}>
+                <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
                     <BarChart data={dataWorkloadDist} margin={{top: 50}}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />

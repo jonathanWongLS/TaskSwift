@@ -8,11 +8,16 @@
 }
 
 .charts-tabs-nav {
-    margin-top: 1em;
     border-radius: 10px;
     border-bottom: none !important;
 }
 
 .charts-tabs-nav-link:not(.active) {
     background-color: #DBDBDB;
+}
+
+@media screen and (max-width: 768px) {
+    .charts-tabs-nav {
+        margin-top: 1em;
+    }
 }
