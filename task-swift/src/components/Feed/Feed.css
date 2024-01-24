@@ -1,0 +1,126 @@
+/* 
+    Comment: #004080 
+    New: #007A33
+    Updates: #B30000
+*/
+
+.feed-card {
+    color: white !important;
+    background-color: var(--offblack) !important;
+    height: 100%;
+}
+
+.feed-card::-webkit-scrollbar {
+    width: .6rem;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.feed-card::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.feed-card::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, .85);
+    border-radius: 10px;
+}
+
+.feed-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding: .6rem;
+}
+
+.comment {
+    background-color: #004080;
+}
+
+.new {
+    background-color: #007A33;
+}
+
+.updates {
+    background-color: #B30000;
+}
+
+.feed-card-title {
+    position: sticky;
+    padding: .4rem;
+    top: 0;
+    background-color: var(--offblack);
+}
+
+.feed-title-container {
+    display: flex;
+}
+
+.feed-help-container {
+    margin-left: auto;
+}
+
+.feed-item-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.feed-tooltip {
+    margin-bottom: 0;
+}
+
+.tooltip-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: white !important;
+    color: black !important;
+    border: 2px solid #DDEC68;
+    padding: .6rem !important;
+}
+
+.tooltip-arrow::before {
+    border-top-color: #DDEC68 !important;
+}
+
+.tooltip.show {
+    opacity: 100% !important;
+}
+
+.comments-circle {
+    fill: #004080;
+}
+
+.new-circle {
+    fill: #007A33;
+}
+
+.updates-circle {
+    fill: #B30000;
+}
+
+@media screen and (max-width: 768px) {
+    .feed-item-top {
+        flex-direction: column;
+    }
+
+    .feed-item {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+    .feed-item-bottom {
+        margin-top: .3rem;
+    }
+
+    .feed-item-bottom {
+        margin-top: .3rem;
+        padding-top: .3rem;
+        border-top: 2px solid rgba(0, 0, 0, .1);
+    }
+}
