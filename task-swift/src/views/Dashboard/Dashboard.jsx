@@ -8,6 +8,7 @@ import UpcomingDeadline from "../../components/UpcomingDeadline/UpcomingDeadline
 import ChartsTabs from "../../components/ChartsTabs/ChartsTabs";
 import Progress from "../../components/Progress/Progress";
 import PriorityTasks from "../../components/PriorityTasks/PriorityTasks";
+import Feed from "../../components/Feed/Feed";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -36,7 +37,7 @@ const Dashboard = () => {
           </Col>
         </Row>
         <Row className="dashboard-row">
-          <Col sm={12} md={12} xl={4} className="upcoming-deadline-col" >
+          <Col sm={12} md={12} xl={4} className="upcoming-deadline-col mb-4" >
             <UpcomingDeadline />
           </Col>
           <Col sm={12} md={12} xl={8} className="charts-tabs-col">
@@ -44,13 +45,15 @@ const Dashboard = () => {
           </Col>
         </Row>
         <Row className="dashboard-row">
-            <Col sm={12} md={12} xl={4}>
+            <Col sm={12} md={12} xl={4} className="mb-4">
               <Progress />
             </Col>
-            <Col sm={12} md={12} xl={6}>
+            <Col sm={12} md={12} xl={5} className="mb-4">
               <PriorityTasks />
             </Col>
-            <Col sm={12} md={12} xl={2}>Hey</Col>
+            <Col sm={12} md={12} xl={3}>
+              <Feed />
+            </Col>
         </Row>
       </div>
     </>
