@@ -1,0 +1,109 @@
+.projects-top-container {
+    padding: 1em 10em;
+}
+
+.projects-search-add-project {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.projects-input-group {
+    width: 24rem !important;
+}
+
+.projects-input-group > .form-control {
+    border-radius: 0 !important;
+    border: 1px solid var(--offblack);
+}
+
+.add-project-btn {
+    width: 12rem;
+    margin-left: 20px;
+    padding: .1em .4em !important;
+    background-color: #0D99FF !important;
+    border-color: #0D99FF !important;
+    color: white !important;
+}
+
+.add-project-btn:hover {
+    background-color: #4DA3FF !important;
+}
+
+.projects-bottom-container {
+    padding: 1em 10em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.project-card {
+    flex: 0 0 calc(33.33% - 20px);
+    max-width: calc(33.33% - 20px);
+    width: 100%;
+    background-color: var(--offblack) !important;
+    color: white !important;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.project-card:hover {
+    transform: scale(1.05);
+}
+
+.project-card-img > img {
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.project-card-info {
+    display: flex;
+    padding: 1em 0;
+    font-size: 20px;
+    font-weight: lighter;
+    gap: 30px;
+}
+
+.project-card-info > div {
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+}
+
+.assignee-count, .project-deadline {
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.assignee-count-value, .project-deadline-value {
+    margin-bottom: 0;
+}
+
+.project-card-body {
+    padding-bottom: 0 !important;
+}
+
+
+@media screen and (max-width: 992px) {
+    .project-card {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+
+    .projects-top-container {
+        padding: 1em 5em;
+    }
+
+    .projects-bottom-container {
+        padding: 1em 5em;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .project-card {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
