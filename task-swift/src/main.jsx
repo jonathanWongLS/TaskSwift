@@ -7,6 +7,7 @@ import {
 import Dashboard from './views/Dashboard/Dashboard';
 import SignIn from './views/SignIn/SignIn';
 import SignUp from './views/SignUp/SignUp';
+import Projects from './views/Projects/Projects';
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignUp />
-  } 
+  },
+  {
+    path: "/projects",
+    element: <Projects />
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(  
