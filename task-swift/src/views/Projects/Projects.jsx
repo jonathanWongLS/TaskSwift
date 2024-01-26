@@ -59,47 +59,56 @@ const Projects = () => {
             {
                 title: "Project #1",
                 noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-1",
+            },
+            {
+                title: "Project #2",
+                noOfAssignees: 2,
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-2",
+            },
+            {
+                title: "Project #3",
+                noOfAssignees: 2,
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-3",
+            },
+            {
+                title: "Project #4",
+                noOfAssignees: 2,
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-4",
             },
             {
                 title: "Project #1",
                 noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-4",
             },
             {
                 title: "Project #1",
                 noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-5",
             },
             {
                 title: "Project #1",
                 noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-5",
             },
             {
-                title: "Project #1",
+                title: "Project #6",
                 noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-6",
             },
             {
-                title: "Project #1",
+                title: "Project #7",
                 noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
-            },
-            {
-                title: "Project #1",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
-            },
-            {
-                title: "Project #1",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
-            },
-            {
-                title: "Project #1",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023"
+                projectDeadline: "10 Dec 2023",
+                projectId: "project-7",
             },
         ]
     )
@@ -130,7 +139,7 @@ const Projects = () => {
                                 title={projectCardDetails.title} 
                                 noOfAssignees={projectCardDetails.noOfAssignees} 
                                 projectDeadline={projectCardDetails.projectDeadline} 
-                                link="/projects"
+                                link={`/projects/${projectCardDetails.projectId}`}
                             />
                         );
                     })}
