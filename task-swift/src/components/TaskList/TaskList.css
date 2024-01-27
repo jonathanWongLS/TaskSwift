@@ -1,0 +1,87 @@
+/* TaskCard component styles  */
+.taskcard-container {
+    padding: 5px 10px;
+    border: 1px solid black;
+}
+
+.dropdown-item:hover {
+    border-radius: 8px;
+}
+
+.todo-item-container, .inprogress-item-container, .done-item-container {
+    margin: .2rem .5rem;
+    border-radius: 8px;
+}
+
+.todo-item-container {
+    background-color: #E4E6EA !important;
+}
+
+.inprogress-item-container {
+    background-color: #E9F2FF !important;
+}
+
+.done-item-container {
+    background-color: #DCFFF1 !important;
+}
+
+.todo-item {
+    color: #3D4D6A !important;
+    font-weight: 500 !important;
+}
+
+.inprogress-item {
+    color: #0077DB !important;
+    font-weight: 500 !important;
+}
+
+.done-item {
+    color: #57987D !important;
+    font-weight: 500 !important;
+}
+
+.priority-dropdown-toggle::after {
+    display: none !important;
+}
+
+.high-item-container, .medium-item-container, .low-item-container {
+    margin: .2rem .5rem;
+    border-radius: 8px;
+}
+
+.high-item:hover, .medium-item:hover, .low-item:hover {
+    background-color: gray !important;
+    color: white !important;
+}
+
+.high-item-container {
+    background-color: #B30000 !important;
+}
+
+.medium-item-container {
+    background-color: #FFD700 !important;
+}
+
+.low-item-container {
+    background-color: #00FF00 !important;
+}
+
+.low-item, .medium-item, .high-item {
+    color: white !important;
+    font-weight: 500 !important;
+}
+
+.task-assignees-icon:hover {
+    cursor: pointer;
+}
+
+.task-delete-icon:hover {
+    cursor: pointer;
+}
+
+/* TaskList component styles  */
+.tasklist-container {
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid black;
+}
