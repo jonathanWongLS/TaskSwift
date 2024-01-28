@@ -125,3 +125,13 @@
     border: 1px solid black;
     min-width: 550px;
 }
+
+.modal-add-task {
+    min-width: 60%;
+}
+
+.task-timeframe-inputs-container {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
