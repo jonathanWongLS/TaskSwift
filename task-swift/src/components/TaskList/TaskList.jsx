@@ -49,8 +49,8 @@ const TaskCard = ({ taskTitle }) => {
     return (
         <div className="taskcard-container">
             <div className="taskcard-left">
-                <LuClipboardList />
-                { taskTitle }
+                <LuClipboardList size="2em" />
+                <p>{ taskTitle }</p>
             </div>
             <div className="taskcard-right">
                 <Dropdown onSelect={ handleTaskStatusSelect }>
@@ -96,6 +96,8 @@ const TaskList = () => {
   return (
     <div className="tasklist-container">
         <TaskCard taskTitle="Task One" />
+        <TaskCard taskTitle="Task Two" />
+        <TaskCard taskTitle="Task Three" />
     </div>
   );
 };
