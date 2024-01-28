@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
+import Button from "react-bootstrap/Button";
 
 import { LuClipboardList } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { GrAdd } from "react-icons/gr";
 
 import "./TaskList.css";
 
@@ -95,9 +97,17 @@ const TaskCard = ({ taskTitle }) => {
 const TaskList = () => {
   return (
     <div className="tasklist-container">
-        <TaskCard taskTitle="Task One" />
-        <TaskCard taskTitle="Task Two" />
-        <TaskCard taskTitle="Task Three" />
+        <div className="tasklist-cards">
+            <TaskCard taskTitle="Task One" />
+            <TaskCard taskTitle="Task Two" />
+            <TaskCard taskTitle="Task Three" />
+        </div>
+        <>
+            <Button className="add-task-btn">
+                <GrAdd fontSize="1.1em" />
+                <p>Add Task</p>
+            </Button>
+        </>
     </div>
   );
 };

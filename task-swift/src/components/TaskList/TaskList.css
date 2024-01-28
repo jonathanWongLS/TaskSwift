@@ -1,11 +1,7 @@
 /* TaskCard component styles  */
 .taskcard-container {
-    padding: 0 1rem;
+    padding: .8rem 1rem;
     border: 1px solid black;
-}
-
-.taskcard-container:not(:last-child) {
-    border-bottom: none;
 }
 
 .dropdown-item:hover {
@@ -89,6 +85,12 @@
     align-items: center;
 }
 
+.taskcard-left > p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+}
+
 .taskcard-left {
     gap: .6rem;
     font-size: larger;
@@ -97,6 +99,23 @@
 .taskcard-right {
     gap: 1.5rem;
     margin-left: auto;
+}
+
+.add-task-btn {
+    background-color: #0D99FF !important;
+    border-color: #0D99FF !important;
+    font-weight: 500 !important;
+
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: .6rem;
+}
+
+.add-task-btn > p {
+    margin-bottom: 0;
 }
 
 /* TaskList component styles  */
