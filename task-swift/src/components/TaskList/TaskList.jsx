@@ -197,7 +197,7 @@ const TaskList = () => {
                 </Button>
 
                 <Modal dialogClassName="modal-add-task" show={showAddTaskModal} onHide={handleCloseAddTaskModal}>
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>Add New Task</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
