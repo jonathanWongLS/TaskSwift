@@ -1,2 +1,8 @@
-# TaskSwift
- TaskSwift is a dynamic and user-centric project management solution designed to revolutionize the way tasks are allocated and collaborated upon. With its intuitive interface and robust feature set, TaskSwift empowers teams to seamlessly organize, prioritize, and track tasks throughout the project lifecycle.
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
