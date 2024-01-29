@@ -1,9 +1,8 @@
 {
-    "routes": [
+    "rewrites":  [
         {
-            "src": "/[^.]+",
-            "dest": "/dashboard",
-            "status": 200
+            "source": "/(.*)", 
+            "destination": "/dashboard"
         }
     ]
 }
