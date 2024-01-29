@@ -85,6 +85,17 @@
     padding-bottom: 0 !important;
 }
 
+.modal-add-project {
+    min-width: 60%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.project-timeframe-inputs-container {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
 
 @media screen and (max-width: 992px) {
     .project-card {

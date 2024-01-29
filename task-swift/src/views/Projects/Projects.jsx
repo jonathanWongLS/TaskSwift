@@ -6,11 +6,15 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Modal from "react-bootstrap/Modal";
 
 import { IoMdSearch } from "react-icons/io";
 import { GrAdd } from "react-icons/gr";
 import { FaRegUser } from "react-icons/fa6";
 import { HiOutlineClipboardCheck } from "react-icons/hi";
+import { BsDashLg } from "react-icons/bs";
 
 import "./Projects.css";
 
@@ -41,13 +45,6 @@ const ProjectCard = ({ title, noOfAssignees, projectDeadline, link }) => {
             </Card.Body>
         </Card>
     );
-}
-
-ProjectCard.propTypes = {
-    title: PropTypes.string.isRequired,
-    noOfAssignees: PropTypes.number.isRequired,
-    projectDeadline: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
 }
 
 const Projects = () => {
@@ -110,6 +107,16 @@ const Projects = () => {
             },
         ]
     )
+    const [showAddProjectModal, setShowAddProjectModal] = useState(false);
+    
+    const handleCloseAddProjectModal = () => {
+        setShowAddProjectModal(false);
+    }
+
+    const handleOpenAddProjectModal = () => {
+        setShowAddProjectModal(true);
+    }
+
     return (
         <>
             <Header />
@@ -126,7 +133,71 @@ const Projects = () => {
                                 <IoMdSearch />
                             </Button>
                         </InputGroup>
-                        <Button className="add-project-btn"><GrAdd />{' '}Add Project</Button>
+                        <Button className="add-project-btn" onClick={ handleOpenAddProjectModal }><GrAdd />{' '}Add Project</Button>
+                        <Modal dialogClassName="modal-add-project" show={ showAddProjectModal } onHide={ handleCloseAddProjectModal }>
+                            <Modal.Header>
+                                <Modal.Title>Add New Project</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Row>
+                                    <Col sm={12} md={12} xl={8}>
+                                        <Form>
+                                            <Form.Group className="mb-3 project-name-group">
+                                                <Form.Label>
+                                                    <h5>Project Name</h5> 
+                                                </Form.Label>
+                                                <Form.Control type="text" />
+                                            </Form.Group>
+                                            <Form.Group className="mb-3 project-desc-group">
+                                                <Form.Label>
+                                                    <h5>Project Description</h5>
+                                                </Form.Label>
+                                                <Form.Control as="textarea" rows={3} />
+                                            </Form.Group>
+                                            <div className="project-timeframe-container">
+                                                <Form.Group className="mb-3 project-timeframe-group">
+                                                    <Form.Label>
+                                                        <h5>Project Timeframe</h5>
+                                                    </Form.Label>
+                                                    <div className="project-timeframe-inputs-container">
+                                                        <InputGroup className="task-timeframe-start-group">
+                                                            <Form.Control placeholder="Starts at (mm/dd/yyyy)" />
+                                                            <Button variant="outline-secondary">
+                                                                X
+                                                            </Button>
+                                                        </InputGroup>
+                                                        <BsDashLg />
+                                                        <InputGroup className="project-timeframe-end-group">
+                                                            <Form.Control placeholder="Ends at (mm/dd/yyyy)" />
+                                                            <Button variant="outline-secondary" id="button-addon2">
+                                                            X
+                                                            </Button>
+                                                        </InputGroup>
+                                                    </div>
+                                                </Form.Group>
+                                            </div> 
+                                        </Form>
+                                    </Col>
+                                    <Col sm={12} md={12} xl={4}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>
+                                                <h5>Add Project Members</h5>
+                                            </Form.Label>
+                                            <Form.Control type="text" placeholder="user@email.com, user2@email.com, ..." />
+                                            <Form.Text muted>Enter multiple comma-separated email addresses</Form.Text>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="primary" onClick={ handleCloseAddProjectModal }>
+                                Save
+                                </Button>
+                                <Button variant="danger" onClick={ handleCloseAddProjectModal }>
+                                Cancel
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                 </div>
                 <div className="projects-bottom-container">
@@ -145,6 +216,15 @@ const Projects = () => {
             </div>
         </>
     );
+}
+
+
+
+ProjectCard.propTypes = {
+    title: PropTypes.string.isRequired,
+    noOfAssignees: PropTypes.number.isRequired,
+    projectDeadline: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
 }
 
 export default Projects
