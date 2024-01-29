@@ -1,8 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
-  createBrowserRouter,
-  RouterProvider,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
 } from 'react-router-dom';
 import Dashboard from './views/Dashboard/Dashboard';
 import SignIn from './views/SignIn/SignIn';
@@ -12,31 +14,17 @@ import Tasks from './views/Tasks/Tasks';
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const router = createBrowserRouter([
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-  {
-    path: "/sign-in",
-    element: <SignIn />
-  },
-  {
-    path: "/sign-up",
-    element: <SignUp />
-  },
-  {
-    path: "/projects",
-    element: <Projects />
-  },
-  {
-    path: "/tasks",
-    element: <Tasks projectTitle='Project Alpha'/>
-  }
-])
-
 ReactDOM.createRoot(document.getElementById('root')).render(  
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Router>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/tasks" element={<Tasks projectTitle="Project Alpha" />} />
+        <Route path="*" element={<Navigate to="/dashboard" />} />
+      </Routes>
+    </Router>
   </React.StrictMode>,
 )
