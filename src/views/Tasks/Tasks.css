@@ -1,3 +1,9 @@
 .tasks-top-container, .tasks-bottom-container {
     padding: 1em 10em;
 }
+
+@media screen and (max-width: 992px) {
+    .tasks-top-container, .tasks-bottom-container {
+        padding: 1em 2em;
+    }
+}
