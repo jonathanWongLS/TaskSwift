@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskswift
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: true
