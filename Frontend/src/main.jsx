@@ -11,7 +11,10 @@ import SignIn from './views/SignIn/SignIn';
 import SignUp from './views/SignUp/SignUp';
 import Projects from './views/Projects/Projects';
 import Tasks from './views/Tasks/Tasks';
-import Loader from './components/Loader/Loader'; // Adjust the path to your Loader component
+import Loader from './components/Loader/Loader'; 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -30,20 +33,22 @@ const App = () => {
 
   return (
     <React.StrictMode>
-      <Router>
-        {loading ? (
-          <Loader />
-        ) : (
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/tasks" element={<Tasks projectTitle="Project Alpha" />} />
-            <Route path="*" element={<Navigate to="/dashboard" />} />
-          </Routes>
-        )}
-      </Router>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Router>
+          {loading ? (
+            <Loader />
+          ) : (
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/tasks" element={<Tasks projectTitle="Project Alpha" />} />
+              <Route path="*" element={<Navigate to="/dashboard" />} />
+            </Routes>
+          )}
+        </Router>
+      </LocalizationProvider>
     </React.StrictMode>
   );
 };

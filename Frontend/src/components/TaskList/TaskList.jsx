@@ -14,6 +14,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { GrAdd } from "react-icons/gr";
 import { BsDashLg } from "react-icons/bs";
 
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import "./TaskList.css";
 
 const TaskCard = ({ taskTitle }) => {
@@ -225,17 +227,11 @@ const TaskList = () => {
                                             </Form.Label>
                                             <div className="task-timeframe-inputs-container">
                                                 <InputGroup className="task-timeframe-start-group">
-                                                    <Form.Control placeholder="Starts at (mm/dd/yyyy)" />
-                                                    <Button variant="outline-secondary">
-                                                        X
-                                                    </Button>
+                                                    <DatePicker label="Start Date" />
                                                 </InputGroup>
                                                 <BsDashLg />
                                                 <InputGroup className="task-timeframe-end-group">
-                                                    <Form.Control placeholder="Ends at (mm/dd/yyyy)" />
-                                                    <Button variant="outline-secondary" id="button-addon2">
-                                                    X
-                                                    </Button>
+                                                    <DatePicker label="End Date" />
                                                 </InputGroup>
                                             </div>
                                         </Form.Group>
