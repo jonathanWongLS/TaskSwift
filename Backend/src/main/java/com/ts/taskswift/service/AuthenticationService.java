@@ -1,5 +1,6 @@
 package com.ts.taskswift.service;
 
+import com.ts.taskswift.exception.EmailNotFoundException;
 import com.ts.taskswift.model.AuthenticationResponse;
 import com.ts.taskswift.model.User;
 import com.ts.taskswift.repository.UserRepository;
@@ -37,11 +38,11 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(User request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
+                        request.getEmail(),
                         request.getPassword()
                 )
         );
-        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found while authenticating!"));
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EmailNotFoundException("Email not found while authenticating!"));
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             String token = jwtService.generateToken(user);
             return new AuthenticationResponse(token);
