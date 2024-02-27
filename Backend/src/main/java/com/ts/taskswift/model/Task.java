@@ -1,6 +1,6 @@
 package com.ts.taskswift.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,15 @@ public class Task {
     @Column(name = "priority", nullable = false)
     private Priority taskPriority;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "assignedTasks")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_task",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> assignedUsers = new HashSet<>();
 }

@@ -31,7 +31,14 @@ public class Project {
     @Column(name = "timeline_enddate", nullable = false)
     private Date projectTimelineEndDate;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "assignedProjects")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private Set<Task> tasks;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_project",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> assignedUsers = new HashSet<>();
 }
