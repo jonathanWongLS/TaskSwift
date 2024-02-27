@@ -26,9 +26,11 @@ public class Task {
     private String taskDescription;
 
     @Column(name = "timeline_startdate", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date taskTimelineStartDate;
 
     @Column(name = "timeline_enddate", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date taskTimelineEndDate;
 
     @Enumerated(value = EnumType.STRING)
