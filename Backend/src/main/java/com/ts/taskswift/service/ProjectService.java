@@ -59,7 +59,7 @@ public class ProjectService {
 
                             return projectRepository.save(selectedProject);
                         }
-                        ).orElseThrow(() -> new ResourceNotFoundException(
+                        ).orElseThrow(() -> new ProjectNotFoundException(
                                 "Project with ID " + projectId + " not found. Cannot update non-existent project!"
                         )
                 );
