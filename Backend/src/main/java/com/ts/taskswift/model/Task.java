@@ -1,11 +1,10 @@
 package com.ts.taskswift.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,13 +24,11 @@ public class Task {
     @Column(name = "description", nullable = false)
     private String taskDescription;
 
-    @Column(name = "timeline_startdate", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date taskTimelineStartDate;
+    @Column(name = "timeline_startdatetime", nullable = false)
+    private String taskTimelineStartDateTime;
 
-    @Column(name = "timeline_enddate", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date taskTimelineEndDate;
+    @Column(name = "timeline_enddatetime", nullable = false)
+    private String taskTimelineEndDateTime;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status", nullable = false)
