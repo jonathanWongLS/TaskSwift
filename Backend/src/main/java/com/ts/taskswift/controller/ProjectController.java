@@ -20,8 +20,10 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping(path = "/projects")
-    public ResponseEntity<?> getProjects() {
-        List<Project> projects = projectService.getProjects();
+    public ResponseEntity<?> getUserProjects(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        Set<Project> projects = projectService.getProjects(authorizationHeader);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
