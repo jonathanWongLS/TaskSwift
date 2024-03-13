@@ -99,6 +99,17 @@ public class TaskService {
                                 "Project with ID " + projectId + " not found. Cannot update non-existent project!"
                         )
                 );
+
+        Set<User> assignedUsers = new HashSet<>();
+        addTaskToProjectRequest.getAssignedUsersIdList().forEach(userId -> {
+                    try {
+                        User user = (User) userDetailsService.loadUserById(userId);
+                        assignedUsers.add(user);
+                    } catch (ResourceNotFoundException e) {}
+                }
+        );
+        Task taskToAdd = addTaskToProjectRequest.getTaskToAdd();
+        taskToAdd.setAssignedUsers(assignedUsers);
         taskToAdd.setProject(project);
         return taskRepository.save(taskToAdd);
     }
