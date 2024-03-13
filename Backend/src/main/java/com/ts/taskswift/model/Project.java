@@ -1,11 +1,9 @@
 package com.ts.taskswift.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,18 +23,10 @@ public class Project {
     @Column(name = "description", nullable = false)
     private String projectDescription;
 
-    @Column(name = "timeline_startdate", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date projectTimelineStartDate;
-
-    @Column(name = "timeline_enddate", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date projectTimelineEndDate;
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<Task> tasks;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "user_project",
             joinColumns = @JoinColumn(name = "project_id"),
