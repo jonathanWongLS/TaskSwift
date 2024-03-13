@@ -62,7 +62,30 @@ public class TaskController {
         }
     }
 
-    @PostMapping(path = "/project/{projectId}/task")
+    @GetMapping(path = "/task-count-status")
+    public ResponseEntity<?> getTaskCountByStatus(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            int[] taskCountByStatus = taskService.getTaskCountByStatus(authorizationHeader);
+            return ResponseEntity.status(HttpStatus.OK).body(taskCountByStatus);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
+        }
+    }
+
+    @GetMapping(path = "/tasks-ordered-by-datetime-desc")
+    public ResponseEntity<?> getTasksOrderedByDatetimeDesc(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            List<Task> tasks = taskService.getTasksOrderedByDatetimeDesc(authorizationHeader);
+            return ResponseEntity.status(HttpStatus.OK).body(tasks);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
+        }
+    }
+
     @PostMapping(path = "/add-task/{projectId}")
     public ResponseEntity<?> addTaskToProject(
             @PathVariable("projectId") Long projectId,
