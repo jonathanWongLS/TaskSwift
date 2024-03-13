@@ -38,17 +38,11 @@ public class User implements UserDetails {
     private Role role;
 
     @JsonIgnore
-    @ManyToMany(
-            mappedBy = "assignedUsers",
-            cascade = CascadeType.ALL
-    )
+    @ManyToMany(mappedBy = "assignedUsers")
     private Set<Project> assignedProjects = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(
-            mappedBy = "assignedUsers",
-            cascade = CascadeType.ALL
-    )
+    @ManyToMany(mappedBy = "assignedUsers")
     private Set<Task> assignedTasks = new HashSet<>();
 
     @Override
