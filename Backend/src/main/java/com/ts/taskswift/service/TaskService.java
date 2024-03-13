@@ -121,7 +121,7 @@ public class TaskService {
                 .stream()
                 .filter(task -> task.getTaskId().equals(taskId))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Task with ID " + taskId + " in project " + projectId + " not found. Cannot update non-existent task!"));
+                .orElseThrow(() -> new TaskNotFoundException("Task with ID " + taskId + " in project " + projectId + " not found. Cannot update non-existent task!"));
 
         if (updatedTask.getTaskName() != null)
             taskToUpdate.setTaskName(updatedTask.getTaskName());
