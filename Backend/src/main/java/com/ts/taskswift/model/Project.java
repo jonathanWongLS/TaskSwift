@@ -33,4 +33,8 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> assignedUsers = new HashSet<>();
+
+    @Column(name = "project_invitations")
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Invitation> invitations;
 }
