@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ProjectRequest {
+public class CreateProjectRequest {
     private Project project;
-    private List<Long> assignedUserIdList;
+    private List<String> assignedUserEmail;
 }
