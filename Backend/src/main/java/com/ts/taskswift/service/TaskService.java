@@ -123,26 +123,28 @@ public class TaskService {
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException("Task with ID " + taskId + " in project " + projectId + " not found. Cannot update non-existent task!"));
 
-        if (updatedTask.getTaskName() != null)
-            taskToUpdate.setTaskName(updatedTask.getTaskName());
+        if (updatedTaskRequest.getTaskToAdd().getTaskName() != null)
+            taskToUpdate.setTaskName(updatedTaskRequest.getTaskToAdd().getTaskName());
 
-        if (updatedTask.getTaskDescription() != null)
-            taskToUpdate.setTaskDescription(updatedTask.getTaskDescription());
+        if (updatedTaskRequest.getTaskToAdd().getTaskDescription() != null)
+            taskToUpdate.setTaskDescription(updatedTaskRequest.getTaskToAdd().getTaskDescription());
 
-        if (updatedTask.getTaskTimelineStartDate() != null)
-            taskToUpdate.setTaskTimelineStartDate(updatedTask.getTaskTimelineStartDate());
+        if (updatedTaskRequest.getTaskToAdd().getTaskTimelineStartDateTime() != null)
+            taskToUpdate.setTaskTimelineStartDateTime(updatedTaskRequest.getTaskToAdd().getTaskTimelineStartDateTime());
 
-        if (updatedTask.getTaskTimelineEndDate() != null)
-            taskToUpdate.setTaskTimelineEndDate(updatedTask.getTaskTimelineEndDate());
+        if (updatedTaskRequest.getTaskToAdd().getTaskTimelineEndDateTime() != null)
+            taskToUpdate.setTaskTimelineEndDateTime(updatedTaskRequest.getTaskToAdd().getTaskTimelineEndDateTime());
 
-        if (updatedTask.getTaskStatus() != null)
-            taskToUpdate.setTaskStatus(updatedTask.getTaskStatus());
+        if (updatedTaskRequest.getTaskToAdd().getTaskStatus() != null)
+            taskToUpdate.setTaskStatus(updatedTaskRequest.getTaskToAdd().getTaskStatus());
 
-        if (updatedTask.getTaskPriority() != null)
-            taskToUpdate.setTaskPriority(updatedTask.getTaskPriority());
+        if (updatedTaskRequest.getTaskToAdd().getTaskPriority() != null)
+            taskToUpdate.setTaskPriority(updatedTaskRequest.getTaskToAdd().getTaskPriority());
 
-        if (updatedTask.getAssignedUsers() != null)
-            taskToUpdate.setAssignedUsers(updatedTask.getAssignedUsers());
+        if (updatedTaskRequest.getTaskToAdd().getAssignedUsers() != null)
+            taskToUpdate.setAssignedUsers(
+                    new HashSet<>(userDetailsService.loadUsersById(updatedTaskRequest.getAssignedUsersIdList()))
+            );
 
         return taskRepository.save(taskToUpdate);
     }
