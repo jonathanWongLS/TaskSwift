@@ -38,11 +38,12 @@ public class Task {
     @Column(name = "priority", nullable = false)
     private Priority taskPriority;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "project_id")
+    @JsonIgnore
     private Project project;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "user_task",
             joinColumns = @JoinColumn(name = "task_id"),
