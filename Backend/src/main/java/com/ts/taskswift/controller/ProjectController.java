@@ -54,6 +54,30 @@ public class ProjectController {
         }
     }
 
+    @GetMapping(path = "/project-progress")
+    public ResponseEntity<?> getProjectProgress(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            ProjectProgress projectProgress = projectService.getProjectProgress(authorizationHeader);
+            return ResponseEntity.status(HttpStatus.OK).body(projectProgress);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
+        }
+    }
+
+    @GetMapping(path = "/workload-distribution")
+    public ResponseEntity<?> getWorkloadDistribution(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            List<WorkloadDistribution> workloadDistributionList = projectService.getWorkloadDistribution(authorizationHeader);
+            return ResponseEntity.status(HttpStatus.OK).body(workloadDistributionList);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
+        }
+    }
+
     @PostMapping(path = "/project")
     public ResponseEntity<?> createProject(
             @RequestBody ProjectRequest projectToAdd
