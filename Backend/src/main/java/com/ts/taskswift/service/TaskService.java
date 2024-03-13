@@ -149,16 +149,21 @@ public class TaskService {
         return taskRepository.save(taskToUpdate);
     }
 
-    @Transactional
     public void deleteTaskInProject(Long projectId, Long taskId) {
-        List<Task> tasksInProject = taskRepository.findByProjectId(projectId);
-
-        Task taskToDelete = tasksInProject
-                .stream()
-                .filter(task -> task.getTaskId().equals(taskId))
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Task with ID " + taskId + " in project " + projectId + " not found. Cannot delete non-existent task!"));
-
-        taskRepository.delete(taskToDelete);
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project with ID " + projectId + " does not exist!"));
+        for (Task task: project.getTasks()) {
+            if (task.getTaskId() == taskId) {
+                Set<User> assignedUsers = task.getAssignedUsers();
+                assignedUsers.forEach(
+                        user -> {
+                            user.getAssignedTasks().remove(task);
+                            userRepository.save(user);
+                        });
+                project.getTasks().remove(task);
+                taskRepository.delete(task);
+                return;
+            }
+        }
+        throw new TaskNotFoundException("Task with ID " + taskId + " in project " + projectId + " not found. Cannot delete non-existent task!");
     }
 }
