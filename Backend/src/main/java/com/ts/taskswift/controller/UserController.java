@@ -17,12 +17,12 @@ public class UserController {
     private final UserDetailsServiceImpl userDetailsService;
 
     @GetMapping(path = "/user/{id}")
-    public ResponseEntity<?> getUser(
-            @PathVariable("id") Long id
+    public ResponseEntity<?> getUserById(
+            @PathVariable("id") Long userId
     ) {
-        UserDetails user = userDetailsService.loadUserById(id);
+        UserDetails user = userDetailsService.loadUserById(userId);
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found with ID " + id + "!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user found with ID " + userId + "!");
         }
         else {
             return ResponseEntity.status(HttpStatus.OK).body(user);
