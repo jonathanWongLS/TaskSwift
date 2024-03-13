@@ -1,5 +1,6 @@
 package com.ts.taskswift.service;
 
+import com.ts.taskswift.exception.UsernameAlreadyExistsException;
 import com.ts.taskswift.exception.PasswordNotFoundException;
 import com.ts.taskswift.model.AuthenticationResponse;
 import com.ts.taskswift.model.User;
@@ -22,6 +23,10 @@ public class AuthenticationService {
     public AuthenticationResponse register(User request) {
         if (request.getUsername() == null || request.getEmail() == null || request.getPassword() == null || request.getRole() == null) {
             throw new IllegalArgumentException("One or more register values not found in JSON request!");
+        }
+
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new UsernameAlreadyExistsException("User with that username already exists!");
         }
 
         User user = new User();
