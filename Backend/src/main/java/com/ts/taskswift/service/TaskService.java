@@ -1,26 +1,33 @@
 package com.ts.taskswift.service;
 
+import com.ts.taskswift.exception.ProjectNotFoundException;
 import com.ts.taskswift.exception.ResourceNotFoundException;
-import com.ts.taskswift.model.Project;
-import com.ts.taskswift.model.Task;
+import com.ts.taskswift.exception.TaskNotFoundException;
+import com.ts.taskswift.model.*;
 import com.ts.taskswift.repository.ProjectRepository;
 import com.ts.taskswift.repository.TaskRepository;
-import jakarta.transaction.Transactional;
+import com.ts.taskswift.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final JwtService jwtService;
 
     public Task getTaskById(Long taskId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
+                        new TaskNotFoundException(
                                 "Task with ID " + taskId + " not found!"
                         )
                 );
@@ -30,7 +37,7 @@ public class TaskService {
     public List<Task> getTasksFromProject(Long projectId) {
         List<Task> tasks = taskRepository.findByProjectId(projectId);
         if (tasks == null) {
-            throw new ResourceNotFoundException("Attempted to find tasks from project with ID " + projectId + " returned null");
+            throw new TaskNotFoundException("Attempted to find tasks from project with ID " + projectId + " returned null");
         }
         return tasks;
     }
@@ -38,7 +45,7 @@ public class TaskService {
     public Task getTaskFromProject(Long taskId, Long projectId) {
         Task task = taskRepository.findByTaskIdAndProjectId(taskId, projectId);
         if (task == null) {
-            throw new ResourceNotFoundException("Task with ID " + taskId + " does not exist in project with ID " + projectId + "!");
+            throw new TaskNotFoundException("Task with ID " + taskId + " does not exist in project with ID " + projectId + "!");
         }
         return task;
     }
@@ -48,7 +55,7 @@ public class TaskService {
         Project project = projectRepository
                 .findById(projectId)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
+                        new ProjectNotFoundException(
                                 "Project with ID " + projectId + " not found. Cannot update non-existent project!"
                         )
                 );
@@ -56,8 +63,7 @@ public class TaskService {
         return taskRepository.save(taskToAdd);
     }
 
-    @Transactional
-    public Task updateTaskInProject(Long projectId, Long taskId, Task updatedTask) {
+    public Task updateTaskInProject(Long projectId, Long taskId, TaskRequest updatedTaskRequest) {
         List<Task> tasksInProject = taskRepository.findByProjectId(projectId);
 
         Task taskToUpdate = tasksInProject
