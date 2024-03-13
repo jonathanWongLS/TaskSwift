@@ -1,13 +1,13 @@
 package com.ts.taskswift.controller;
 
+import com.ts.taskswift.exception.ProjectNotFoundException;
 import com.ts.taskswift.exception.ResourceNotFoundException;
-import com.ts.taskswift.model.Project;
-import com.ts.taskswift.model.ProjectRequest;
-import com.ts.taskswift.model.User;
+import com.ts.taskswift.model.*;
 import com.ts.taskswift.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +27,9 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
-    @GetMapping(path = "/project/{id}")
+    @GetMapping(path = "/project/{projectId}")
     public ResponseEntity<?> getProject(
-            @PathVariable("id") Long id
+            @PathVariable("projectId") Long id
     ) {
         try {
             Project project = projectService.getProjectById(id);
