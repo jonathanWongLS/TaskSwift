@@ -80,9 +80,10 @@ public class ProjectController {
 
     @PostMapping(path = "/project")
     public ResponseEntity<?> createProject(
-            @RequestBody ProjectRequest projectToAdd
+            @RequestBody CreateProjectRequest projectToAdd,
+            @RequestHeader("Authorization") String authorizationHeader
     ) {
-        Project project = projectService.addProject(projectToAdd);
+        Project project = projectService.createProject(projectToAdd,authorizationHeader);
         return ResponseEntity.status(HttpStatus.OK).body(project);
     }
 
