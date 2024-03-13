@@ -50,8 +50,48 @@ public class TaskService {
         return task;
     }
 
-    @Transactional
-    public Task addTaskToProject(Long projectId, Task taskToAdd) {
+    public int[] getTaskCountByStatus(String authorizationHeader) {
+        String jwtToken = authorizationHeader.substring(7);
+        String username = jwtService.extractUsername(jwtToken);
+        User user = (User) userDetailsService.loadUserByUsername(username);
+        int[] taskCountByStatus = new int[3];
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedZoneDateTimeNow = formatter.format(ZonedDateTime.now(ZoneId.of("Asia/Kuala_Lumpur")));
+        ZonedDateTime now = ZonedDateTime.parse(formattedZoneDateTimeNow, formatter);
+
+        for (Task task: user.getAssignedTasks()) {
+            if (task.getTaskStatus() == Status.DONE) {
+                taskCountByStatus[1]++;
+            }
+            else {
+                if (ZonedDateTime.parse(task.getTaskTimelineEndDateTime(), formatter).isBefore(now)) {
+                    taskCountByStatus[0]++;
+                }
+                else {
+                    taskCountByStatus[2]++;
+                }
+            }
+        }
+        return taskCountByStatus;
+    }
+
+    public List<Task> getTasksOrderedByDatetimeDesc(String authorizationHeader) {
+        String jwtToken = authorizationHeader.substring(7);
+        String username = jwtService.extractUsername(jwtToken);
+        User user = (User) userDetailsService.loadUserByUsername(username);
+
+        Set<Task> assignedTasks = user.getAssignedTasks();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        List<Task> assignedTasksList = new ArrayList<>();
+        assignedTasksList.addAll(assignedTasks);
+
+        Collections.sort(assignedTasksList, (o1, o2) -> ZonedDateTime.parse(o2.getTaskTimelineEndDateTime(), formatter).compareTo(ZonedDateTime.parse(o1.getTaskTimelineEndDateTime(), formatter)));
+        return assignedTasksList;
+    }
+
+    public Task addTaskToProject(Long projectId, TaskRequest addTaskToProjectRequest) {
         Project project = projectRepository
                 .findById(projectId)
                 .orElseThrow(() ->
