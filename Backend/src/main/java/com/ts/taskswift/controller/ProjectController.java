@@ -87,6 +87,29 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(project);
     }
 
+    @GetMapping(path = "/project-task-summary")
+    public ResponseEntity<?> getProjectTaskSummary(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(projectService.getProjectTaskSummary(authorizationHeader));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found!");
+        }
+    }
+
+    @PostMapping(path = "/project/{projectId}/assign-users")
+    public ResponseEntity<?> addAssignedUsersToProject(
+            @PathVariable("projectId") Long projectId,
+            @RequestBody List<String> newAssignedUsersEmails
+    ) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(projectService.addAssignedUsers(projectId, newAssignedUsersEmails));
+        } catch (ProjectNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project with ID " + projectId + " does not exist!");
+        }
+    }
+
     @PutMapping(path = "/project/{projectId}")
     public ResponseEntity<?> updateProject(
             @PathVariable("projectId") Long projectId,
