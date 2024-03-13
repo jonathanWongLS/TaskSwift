@@ -1,6 +1,7 @@
 package com.ts.taskswift.controller;
 
 import com.ts.taskswift.exception.ResourceNotFoundException;
+import com.ts.taskswift.model.TaskRequest;
 import com.ts.taskswift.model.Task;
 import com.ts.taskswift.model.User;
 import com.ts.taskswift.service.TaskService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,12 +63,13 @@ public class TaskController {
     }
 
     @PostMapping(path = "/project/{projectId}/task")
+    @PostMapping(path = "/add-task/{projectId}")
     public ResponseEntity<?> addTaskToProject(
-            @PathVariable Long projectId,
-            @RequestBody Task taskToAdd
+            @PathVariable("projectId") Long projectId,
+            @RequestBody TaskRequest addTaskToProjectRequest
     ) {
         try {
-            Task addedTask = taskService.addTaskToProject(projectId, taskToAdd);
+            Task addedTask = taskService.addTaskToProject(projectId, addTaskToProjectRequest);
             return ResponseEntity.status(HttpStatus.OK).body(addedTask);
         }
         catch (ResourceNotFoundException e) {
@@ -76,12 +79,12 @@ public class TaskController {
 
     @PutMapping(path = "/project/{projectId}/task/{taskId}")
     public ResponseEntity<?> updateTaskInProject(
-            @PathVariable Long projectId,
-            @PathVariable Long taskId,
-            @RequestBody Task updatedTask
+            @PathVariable("projectId") Long projectId,
+            @PathVariable("taskId") Long taskId,
+            @RequestBody TaskRequest updatedTaskRequest
     ) {
         try {
-            Task project = taskService.updateTaskInProject(projectId, taskId, updatedTask);
+            Task project = taskService.updateTaskInProject(projectId, taskId, updatedTaskRequest);
             return ResponseEntity.status(HttpStatus.OK).body(project);
         }
         catch(ResourceNotFoundException e) {
@@ -91,8 +94,8 @@ public class TaskController {
 
     @DeleteMapping(path = "/project/{projectId}/task/{taskId}")
     public ResponseEntity<?> deleteTaskInProject(
-            @PathVariable Long projectId,
-            @PathVariable Long taskId
+            @PathVariable("projectId") Long projectId,
+            @PathVariable("taskId") Long taskId
     ) {
         try {
             taskService.deleteTaskInProject(projectId, taskId);
