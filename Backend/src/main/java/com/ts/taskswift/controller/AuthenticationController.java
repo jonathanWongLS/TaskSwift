@@ -1,5 +1,6 @@
 package com.ts.taskswift.controller;
 
+import com.ts.taskswift.exception.UsernameAlreadyExistsException;
 import com.ts.taskswift.model.AuthenticationResponse;
 import com.ts.taskswift.model.User;
 import com.ts.taskswift.service.AuthenticationService;
@@ -20,10 +21,16 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody User request
     ) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        try {
+            return ResponseEntity.ok(authenticationService.register(request));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("One or more register values not found in JSON request!");
+        } catch (UsernameAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User with that email address already exists!");
+        }
     }
 
     @PostMapping("/login")
