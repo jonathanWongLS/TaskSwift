@@ -40,7 +40,7 @@ public class ProjectController {
         }
     }
 
-    @GetMapping(path = "/project/{projectId}/assignedusers")
+    @GetMapping(path = "/project/{projectId}/assigned-users")
     public ResponseEntity<?> getProjectAssignedUsers(
             @PathVariable("projectId") Long projectId
     ) {
