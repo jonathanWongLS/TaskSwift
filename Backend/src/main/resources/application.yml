@@ -17,7 +17,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: wonglsjonathan01@gmail.com
-    password: Pyth0n._.010101!
+    password:
 
     properties:
       mail:
