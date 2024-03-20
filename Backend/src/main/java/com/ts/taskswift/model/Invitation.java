@@ -1,5 +1,6 @@
 package com.ts.taskswift.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class Invitation {
     @Column(name = "token")
     private UUID invitationToken;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
