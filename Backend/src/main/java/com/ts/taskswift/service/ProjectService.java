@@ -4,14 +4,14 @@ import com.ts.taskswift.exception.ProjectNotFoundException;
 import com.ts.taskswift.model.*;
 import com.ts.taskswift.repository.ProjectRepository;
 import com.ts.taskswift.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.*;
 
 @Service
@@ -169,7 +169,7 @@ public class ProjectService {
         return emailBuilder.toString();
     }
 
-    public Project createProject(CreateProjectRequest createProjectRequest, String authorizationHeader) {
+    public Project createProject(CreateProjectRequest createProjectRequest, String authorizationHeader) throws MessagingException {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtService.extractUsername(jwtToken);
         User user = (User) userDetailsService.loadUserByUsername(username);
@@ -184,13 +184,15 @@ public class ProjectService {
         assignedUsers.addAll(listOfUsers.getRegisteredUserSet());
         projectToAdd.setAssignedUsers(assignedUsers);
 
+        Project addedProject = projectRepository.save(projectToAdd);
+
         for (String inviteeEmail: listOfUsers.getUnregisteredEmailSet()) {
             Invitation invitation = invitationService.createInvitationToProject(createProjectRequest.getProject().getProjectId(), inviteeEmail);
             String emailHtml = buildProjectInviteEmail(createProjectRequest.getProject().getProjectName(), invitation.getInvitationToken());
             emailService.send(inviteeEmail, emailHtml);
         }
 
-        return projectRepository.save(projectToAdd);
+        return projectRepository.findById(addedProject.getProjectId()).orElseThrow();
     }
 
     public Project updateProject(Long projectId, Project updatedProject) {
