@@ -10,6 +10,7 @@ import com.ts.taskswift.repository.ProjectRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,13 +33,25 @@ public class InvitationService {
     public Invitation createInvitationToProject(Long projectId, String email) {
         Invitation invitation = new Invitation();
         Project project = projectService.getProjectById(projectId);
+        Set<Invitation> invitationSet;
         UUID inviteToken = UUID.randomUUID();
 
         invitation.setInviteeEmail(email);
         invitation.setProject(project);
         invitation.setInvitationToken(inviteToken);
 
-        return invitationRepository.save(invitation);
+        if (project.getInvitations() == null) {
+            invitationSet = new HashSet<>();
+        } else {
+            invitationSet = project.getInvitations();
+        }
+
+        invitationSet.add(invitation);
+        project.setInvitations(invitationSet);
+
+        projectRepository.save(project);
+
+        return invitation;
     }
 
     public Invitation loadInvitationByToken(UUID token) {
@@ -53,6 +66,7 @@ public class InvitationService {
         assignedUsers.add(registeredUser);
         project.setAssignedUsers(assignedUsers);
         projectRepository.save(project);
+        invitationRepository.delete(invitation);
         return new AuthenticationResponse(registrationToken.getToken());
     }
 }
