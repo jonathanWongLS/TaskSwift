@@ -16,18 +16,12 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: wonglsjonathan01@gmail.com
-    password:
-
+    username: noreply.taskswift@gmail.com
+    password: jcwzwovftvuhamem
     properties:
       mail:
         smtp:
-          ssl:
-            trust: "*"
-          auth: true
           starttls:
             enable: true
-          connectiontimeout: 5000
-          timeout: 3000
-          writetimeout: 5000
-
+          ssl:
+            trust: smtp.gmail.com
