@@ -120,7 +120,7 @@ public class ProjectService {
         return workloadDistributionList;
     }
 
-    public Project addAssignedUsers(Long projectId, List<String> newAssignedUsersEmails) {
+    public Project addAssignedUsers(Long projectId, List<String> newAssignedUsersEmails) throws MessagingException {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project with ID " + projectId + " does not exist!"));
         RegisteredAndUnregisteredUsers listOfUsers = userDetailsService.loadUsersByEmail(newAssignedUsersEmails);
         Set<User> assignedUsers = project.getAssignedUsers();
@@ -128,13 +128,15 @@ public class ProjectService {
         assignedUsers.addAll(newAssignedUsers);
         project.setAssignedUsers(assignedUsers);
 
+        Project updatedProject = projectRepository.save(project);
+
         for (String inviteeEmail: listOfUsers.getUnregisteredEmailSet()) {
             Invitation invitation = invitationService.createInvitationToProject(project.getProjectId(), inviteeEmail);
             String emailHtml = buildProjectInviteEmail(project.getProjectName(), invitation.getInvitationToken());
             emailService.send(inviteeEmail, emailHtml);
         }
 
-        return projectRepository.save(project);
+        return projectRepository.findById(updatedProject.getProjectId()).orElseThrow();
     }
 
     public static String buildProjectInviteEmail(String projectName, UUID token) {
