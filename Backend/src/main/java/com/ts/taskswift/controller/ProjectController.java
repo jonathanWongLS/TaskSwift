@@ -4,6 +4,7 @@ import com.ts.taskswift.exception.ProjectNotFoundException;
 import com.ts.taskswift.exception.ResourceNotFoundException;
 import com.ts.taskswift.model.*;
 import com.ts.taskswift.service.ProjectService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +83,7 @@ public class ProjectController {
     public ResponseEntity<?> createProject(
             @RequestBody CreateProjectRequest projectToAdd,
             @RequestHeader("Authorization") String authorizationHeader
-    ) {
+    ) throws MessagingException {
         Project project = projectService.createProject(projectToAdd,authorizationHeader);
         return ResponseEntity.status(HttpStatus.OK).body(project);
     }
@@ -107,6 +108,8 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.OK).body(projectService.addAssignedUsers(projectId, newAssignedUsersEmails));
         } catch (ProjectNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project with ID " + projectId + " does not exist!");
+        } catch (MessagingException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Invite email not sent!");
         }
     }
 
