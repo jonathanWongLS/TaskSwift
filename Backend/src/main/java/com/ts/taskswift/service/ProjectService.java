@@ -138,24 +138,33 @@ public class ProjectService {
     }
 
     public static String buildProjectInviteEmail(String projectName, UUID token) {
-        String filePath = "./src/main/java/com/ts/taskswift/email/ProjectInvite.html";
+        String urlStr = "https://raw.githubusercontent.com/jonathanWongLS/TaskSwift/main/Backend/src/main/java/com/ts/taskswift/email/ProjectInvite.html";
+        StringBuilder emailBuilder = new StringBuilder();
 
-        StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try {
+            // Create a URL object
+            URL url = new URL(urlStr);
+
+            // Open a connection to the URL
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+
+            // Read the HTML content line by line
             String line;
             while ((line = reader.readLine()) != null) {
                 line = line
                         .replace("{ProjectName}", projectName)
                         .replace("{InviteLink}", "http://taskswift.com/register/?token=" + token);
-                contentBuilder.append(line);
+                emailBuilder.append(line);
+                emailBuilder.append("\n");
             }
+
+            // Close the reader
+            reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error reading from URL: " + e.getMessage());
         }
 
-        String htmlString = contentBuilder.toString();
-        Document doc = Jsoup.parse(htmlString);
-        return doc.outerHtml();
+        return emailBuilder.toString();
     }
 
     public Project createProject(CreateProjectRequest createProjectRequest, String authorizationHeader) {
