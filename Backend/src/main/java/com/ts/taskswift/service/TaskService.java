@@ -25,13 +25,12 @@ public class TaskService {
     private final JwtService jwtService;
 
     public Task getTaskById(Long taskId) {
-        Task task = taskRepository.findById(taskId)
+        return taskRepository.findById(taskId)
                 .orElseThrow(() ->
                         new TaskNotFoundException(
                                 "Task with ID " + taskId + " not found!"
                         )
                 );
-        return task;
     }
 
     public List<Task> getTasksFromProject(Long projectId) {
@@ -57,15 +56,14 @@ public class TaskService {
         int[] taskCountByStatus = new int[3];
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String formattedZoneDateTimeNow = formatter.format(ZonedDateTime.now(ZoneId.of("Asia/Kuala_Lumpur")));
-        ZonedDateTime now = ZonedDateTime.parse(formattedZoneDateTimeNow, formatter);
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Kuala_Lumpur"));
 
         for (Task task: user.getAssignedTasks()) {
             if (task.getTaskStatus() == Status.DONE) {
                 taskCountByStatus[1]++;
             }
             else {
-                if (ZonedDateTime.parse(task.getTaskTimelineEndDateTime(), formatter).isBefore(now)) {
+                if (ZonedDateTime.parse(task.getTaskTimelineEndDateTime(), formatter.withZone(ZoneId.of("Asia/Kuala_Lumpur"))).isBefore(now)) {
                     taskCountByStatus[0]++;
                 }
                 else {
@@ -84,10 +82,13 @@ public class TaskService {
         Set<Task> assignedTasks = user.getAssignedTasks();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-        List<Task> assignedTasksList = new ArrayList<>();
-        assignedTasksList.addAll(assignedTasks);
+        List<Task> assignedTasksList = new ArrayList<>(assignedTasks);
 
-        Collections.sort(assignedTasksList, (o1, o2) -> ZonedDateTime.parse(o2.getTaskTimelineEndDateTime(), formatter).compareTo(ZonedDateTime.parse(o1.getTaskTimelineEndDateTime(), formatter)));
+        assignedTasksList.sort((o1, o2) ->
+                ZonedDateTime.parse(o2.getTaskTimelineEndDateTime(), formatter.withZone(ZoneId.of("Asia/Kuala_Lumpur")))
+                        .compareTo(
+                                ZonedDateTime.parse(o1.getTaskTimelineEndDateTime(), formatter.withZone(ZoneId.of("Asia/Kuala_Lumpur")))
+                        ));
         return assignedTasksList;
     }
 
@@ -152,7 +153,7 @@ public class TaskService {
     public void deleteTaskInProject(Long projectId, Long taskId) {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project with ID " + projectId + " does not exist!"));
         for (Task task: project.getTasks()) {
-            if (task.getTaskId() == taskId) {
+            if (Objects.equals(task.getTaskId(), taskId)) {
                 Set<User> assignedUsers = task.getAssignedUsers();
                 assignedUsers.forEach(
                         user -> {
