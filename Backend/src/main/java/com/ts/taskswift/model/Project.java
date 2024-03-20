@@ -35,6 +35,6 @@ public class Project {
     private Set<User> assignedUsers = new HashSet<>();
 
     @Column(name = "project_invitations")
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<Invitation> invitations;
 }
