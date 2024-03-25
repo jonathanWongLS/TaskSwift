@@ -1,15 +1,13 @@
 server:
   port: 8081
 spring:
-  config:
-    import: optional:secrets.properties
   datasource:
-    url: jdbc:postgresql://database-1.cj48agmumj7n.ap-southeast-1.rds.amazonaws.com:5432/TaskSwiftDatabase
+    url: jdbc:postgresql://localhost:5432/taskswift
     username: postgres
-    password: ${AWS_MASTER_PASSWORD}
+    password: password
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
@@ -19,7 +17,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: noreply.taskswift@gmail.com
-    password: ${MAIL_APP_PASSWORD}
+    password: jcwzwovftvuhamem
     properties:
       mail:
         smtp:
