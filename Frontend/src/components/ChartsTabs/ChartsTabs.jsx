@@ -1,157 +1,134 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { ResponsiveContainer, BarChart, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, Line } from "recharts";
+import Spinner from 'react-bootstrap/Spinner';
+
+import PropTypes from 'prop-types';
+import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from "recharts";
+
 import "./ChartsTabs.css";
 
-const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+const ChartsTabs = ({ projectProgressDetails, workloadDistributionDetails, loading }) => {
+  const [projectProgressData, setProjectProgressData] = useState([]);
+  const [workloadDistributionData, setWorkloadDistributionData] = useState([]);
 
-  const dataWorkloadDist = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  const [selectedGraph, setSelectedGraph] = useState("project-progress-event");
+  const handleSelectGraph = (selectedGraph) => setSelectedGraph(selectedGraph);
 
-const ChartsTabs = () => {
+  useEffect(() => {
+    if (projectProgressDetails) {
+      const progressData = projectProgressDetails.map(detail => ({
+        name: detail.project.projectName,
+        "To Do": detail.numberOfTodoTasks,
+        "In Progress": detail.numberOfInProgressTasks,
+        Done: detail.numberOfDoneTasks,
+      }));
+      setProjectProgressData(progressData);
+    } else {
+      setProjectProgressData([]);
+    }
 
-    const [selectedGraph, setSelectedGraph] = useState("task-completion-rate-event");
-    const handleSelectGraph = (selectedGraph) => setSelectedGraph(selectedGraph);
+    if (workloadDistributionDetails) {
+      const workloadData = workloadDistributionDetails.map(detail => ({
+        name: detail.project.projectName,
+        "No. of Assigned Tasks": detail.assignedTasksCount,
+        "No. of Unassigned Tasks": detail.totalTasksCount - detail.assignedTasksCount,
+      }));
+      setWorkloadDistributionData(workloadData);
+    } else {
+      setWorkloadDistributionData([]);
+    }
+  }, [projectProgressDetails, workloadDistributionDetails]);
 
-    return (
-        <>
-            <Nav variant="tabs charts-tabs-nav" defaultActiveKey="task-completion-rate-event" activeKey={selectedGraph} onSelect={handleSelectGraph}>
-                <Nav.Item className="charts-tabs-nav-item">
-                    <Nav.Link className="charts-tabs-nav-link" eventKey="task-completion-rate-event">Task Completion Rate</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="charts-tabs-nav-item">
-                    <Nav.Link className="charts-tabs-nav-link" eventKey="project-progress-event">Project Progress</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="charts-tabs-nav-item">
-                    <Nav.Link className="charts-tabs-nav-link" eventKey="workload-distribution-event">Workload Distribution</Nav.Link>
-                </Nav.Item>
-            </Nav>
-            {selectedGraph === 'task-completion-rate-event' && 
-                <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
-                    <BarChart data={data} margin={{top: 50}}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="pv" fill="#8884d8" />
-                        <Bar dataKey="uv" fill="#82ca9d" />
-                    </BarChart>
-                </ResponsiveContainer>
+  return (
+    <>
+      <Nav variant="tabs charts-tabs-nav" defaultActiveKey="project-progress-event" activeKey={selectedGraph} onSelect={handleSelectGraph}>
+        <Nav.Item className="charts-tabs-nav-item">
+          <Nav.Link className="charts-tabs-nav-link" eventKey="project-progress-event">Project Progress</Nav.Link>
+        </Nav.Item>
+        <Nav.Item className="charts-tabs-nav-item">
+          <Nav.Link className="charts-tabs-nav-link" eventKey="workload-distribution-event">Workload Distribution</Nav.Link>
+        </Nav.Item>
+      </Nav>
+      {selectedGraph === 'project-progress-event' && (
+        loading ? (
+          <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
+            <span className="d-flex justify-content-center text-align-center mt-4">
+              <Spinner animation="grow" size="sm" />
+            </span>
+          </ResponsiveContainer>
+        ) : (
+          <>
+            {projectProgressData && projectProgressData.length > 0 ? (
+              <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
+                <BarChart width={500} height={500} data={projectProgressData}>
+                  <CartesianGrid />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="To Do" stackId="a" fill="#3D4D6A" />
+                  <Bar dataKey="In Progress" stackId="a" fill="#0077DB" />
+                  <Bar dataKey="Done" stackId="a" fill="#57987D" />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
+                <p className="d-flex justify-content-center mt-5">No projects yet</p>
+              </ResponsiveContainer>
+            )}
+          </>
+        )
+      )}
+      {selectedGraph === 'workload-distribution-event' &&
+        (loading ? 
+          (
+            <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
+              <span className="d-flex justify-content-center text-align-center mt-4">
+                <Spinner animation="grow" size="sm" />
+              </span>
+            </ResponsiveContainer>
+          ) : (
+          <>
+            {
+              workloadDistributionDetails && workloadDistributionDetails.length > 0 ?
+              <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
+                <BarChart
+                  layout="vertical"
+                  width={500}
+                  height={500}
+                  data={workloadDistributionData}
+                  margin={{
+                    top: 30,
+                    right: 20,
+                    bottom: 10,
+                    left: 10,
+                  }}
+                >
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="name" type="category" />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="No. of Assigned Tasks" stackId="a" fill="#2196F3" />
+                  <Bar dataKey="No. of Unassigned Tasks" stackId="a" fill="#F44336" />
+                </BarChart>
+              </ResponsiveContainer>
+              :
+              <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
+                <p className="d-flex justify-content-center mt-5">No projects yet</p>
+              </ResponsiveContainer>
             }
-            {selectedGraph === 'project-progress-event' && 
-                <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
-                    <LineChart data={data} margin={{top: 50}}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                    </LineChart>
-                </ResponsiveContainer>
-            }
-            {selectedGraph === 'workload-distribution-event' &&
-                <ResponsiveContainer className="chart-responsive-container" width="100%" height={360}>
-                    <BarChart data={dataWorkloadDist} margin={{top: 50}}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="pv" fill="#8884d8" />
-                        <Bar dataKey="uv" fill="#82ca9d" />
-                    </BarChart>
-                </ResponsiveContainer>
-            }
-        </>
-    )
+          </>
+        )
+      )}
+    </>
+  )
+}
+
+ChartsTabs.propTypes = {
+  projectProgressDetails: PropTypes.array,
+  workloadDistributionDetails: PropTypes.array,
+  loading: PropTypes.bool
 }
 
 export default ChartsTabs
