@@ -45,6 +45,9 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "assignedUsers")
     private Set<Task> assignedTasks = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
