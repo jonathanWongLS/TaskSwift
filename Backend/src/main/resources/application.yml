@@ -1,13 +1,15 @@
 server:
   port: 8081
 spring:
+  application:
+    name: taskswift
   datasource:
-    url: jdbc:postgresql://localhost:5432/taskswift
+    url: jdbc:postgresql://database-1.cj48agmumj7n.ap-southeast-1.rds.amazonaws.com:5432/taskswift
     username: postgres
     password: password
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
