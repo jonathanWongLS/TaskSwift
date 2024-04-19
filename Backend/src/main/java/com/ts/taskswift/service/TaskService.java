@@ -64,6 +64,9 @@ public class TaskService {
                 if (LocalDate.parse(task.getTaskTimelineEndDateTime()).isBefore(now)) {
                     taskCountByStatus[2]++;
                 }
+                else {
+                    taskCountByStatus[0]++;
+                }
             }
         }
         return taskCountByStatus;
