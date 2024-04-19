@@ -1,6 +1,7 @@
 package com.ts.taskswift.controller;
 
 import com.ts.taskswift.exception.ResourceNotFoundException;
+import com.ts.taskswift.model.TaskAndProjectName;
 import com.ts.taskswift.model.TaskRequest;
 import com.ts.taskswift.model.Task;
 import com.ts.taskswift.model.User;
@@ -80,6 +81,18 @@ public class TaskController {
     ) {
         try {
             List<TaskAndProjectName> tasks = taskService.getTasksOrderedByDatetimeDesc(authorizationHeader);
+            return ResponseEntity.status(HttpStatus.OK).body(tasks);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
+        }
+    }
+
+    @GetMapping(path = "/priority-tasks")
+    public ResponseEntity<?> getPriorityTasks(
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        try {
+            List<TaskAndProjectName> tasks = taskService.getPriorityTasks(authorizationHeader);
             return ResponseEntity.status(HttpStatus.OK).body(tasks);
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
