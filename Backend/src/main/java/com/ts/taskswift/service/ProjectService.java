@@ -61,19 +61,26 @@ public class ProjectService {
         return projectsAndNumberOfNonDoneTasks;
     }
 
-    public ProjectProgress getProjectProgress(String authorizationHeader) {
+    public List<ProjectProgress> getProjectProgress(String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtService.extractUsername(jwtToken);
         User user = (User) userDetailsService.loadUserByUsername(username);
 
-        ProjectProgress projectProgress = new ProjectProgress();
-        Set<Project> assignedProjects = new HashSet<>();
-        int todoCount = 0;
-        int inProgressCount = 0;
-        int doneCount = 0;
+        ProjectProgress projectProgress;
+        List<ProjectProgress> projectProgressList = new ArrayList<>();
+        int todoCount;
+        int inProgressCount;
+        int doneCount;
 
         for (Project project: user.getAssignedProjects()) {
-            assignedProjects.add(project);
+            projectProgress = new ProjectProgress();
+
+            todoCount = 0;
+            inProgressCount = 0;
+            doneCount = 0;
+
+            projectProgress.setProject(project);
+
             for (Task task: project.getTasks()) {
                 if (task.getTaskStatus() == Status.TO_DO) {
                     todoCount++;
@@ -83,13 +90,14 @@ public class ProjectService {
                     doneCount++;
                 }
             }
+            projectProgress.setNumberOfTodoTasks(todoCount);
+            projectProgress.setNumberOfInProgressTasks(inProgressCount);
+            projectProgress.setNumberOfDoneTasks(doneCount);
+
+            projectProgressList.add(projectProgress);
         }
 
-        projectProgress.setNumberOfTodoTasks(todoCount);
-        projectProgress.setNumberOfInProgressTasks(inProgressCount);
-        projectProgress.setNumberOfDoneTasks(doneCount);
-        projectProgress.setProject(assignedProjects);
-        return projectProgress;
+        return projectProgressList;
     }
 
     public List<WorkloadDistribution> getWorkloadDistribution(String authorizationHeader) {
