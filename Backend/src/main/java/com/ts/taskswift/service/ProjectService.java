@@ -163,7 +163,7 @@ public class ProjectService {
             while ((line = reader.readLine()) != null) {
                 line = line
                         .replace("{ProjectName}", projectName)
-                        .replace("{InviteLink}", "http://taskswift.com/register/?token=" + token);
+                        .replace("{InviteLink}", "http://taskswift.com/sign-up?token=" + token);
                 emailBuilder.append(line);
                 emailBuilder.append("\n");
             }
