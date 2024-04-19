@@ -20,6 +20,7 @@ import java.util.Set;
 public class ProjectController {
     private final ProjectService projectService;
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/projects")
     public ResponseEntity<?> getUserProjects(
             @RequestHeader("Authorization") String authorizationHeader
@@ -137,6 +138,20 @@ public class ProjectController {
         }
         catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project with ID " + projectId + " cannot be found!");
+        }
+    }
+
+    @DeleteMapping(path = "/project/{projectId}/remove/{projectMemberId}")
+    public ResponseEntity<?> deleteProjectMemberFromProject(
+        @PathVariable("projectId") Long projectId,
+        @PathVariable("projectMemberId") Long projectMemberToRemoveId
+    ) {
+        try {
+            projectService.deleteProjectMemberFromProject(projectId, projectMemberToRemoveId);
+            return ResponseEntity.status(HttpStatus.OK).body("Member with ID " + projectMemberToRemoveId + " have been removed from project with ID " + projectId + "!");
+        }
+        catch (ProjectNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project with ID " + projectId + " does not exist!");
         }
     }
 }
