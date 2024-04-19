@@ -79,7 +79,7 @@ public class TaskController {
             @RequestHeader("Authorization") String authorizationHeader
     ) {
         try {
-            List<Task> tasks = taskService.getTasksOrderedByDatetimeDesc(authorizationHeader);
+            List<TaskAndProjectName> tasks = taskService.getTasksOrderedByDatetimeDesc(authorizationHeader);
             return ResponseEntity.status(HttpStatus.OK).body(tasks);
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
