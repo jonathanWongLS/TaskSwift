@@ -11,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -55,18 +54,14 @@ public class TaskService {
         User user = (User) userDetailsService.loadUserByUsername(username);
         int[] taskCountByStatus = new int[3];
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Kuala_Lumpur"));
+        LocalDate now = LocalDate.now(ZoneId.of("Asia/Kuala_Lumpur"));
 
         for (Task task: user.getAssignedTasks()) {
             if (task.getTaskStatus() == Status.DONE) {
                 taskCountByStatus[1]++;
             }
             else {
-                if (ZonedDateTime.parse(task.getTaskTimelineEndDateTime(), formatter.withZone(ZoneId.of("Asia/Kuala_Lumpur"))).isBefore(now)) {
-                    taskCountByStatus[0]++;
-                }
-                else {
+                if (LocalDate.parse(task.getTaskTimelineEndDateTime()).isBefore(now)) {
                     taskCountByStatus[2]++;
                 }
             }
