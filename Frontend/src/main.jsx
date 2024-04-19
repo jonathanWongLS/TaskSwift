@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   BrowserRouter as Router,
@@ -6,17 +6,18 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import Dashboard from './views/Dashboard/Dashboard';
-import SignIn from './views/SignIn/SignIn';
-import SignUp from './views/SignUp/SignUp';
-import Projects from './views/Projects/Projects';
-import Tasks from './views/Tasks/Tasks';
-import Loader from './components/Loader/Loader'; 
+const Dashboard = lazy(() => import('./views/Dashboard/Dashboard'));
+const SignIn = lazy(() => import('./views/SignIn/SignIn'));
+const SignUp = lazy(() => import('./views/SignUp/SignUp'));
+const Projects = lazy(() => import('./views/Projects/Projects'));
+const Tasks = lazy(() => import('./views/Tasks/Tasks'));
+const Loader = lazy(() => import('./components/Loader/Loader'));
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { LuAxe } from 'react-icons/lu';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,7 @@ const App = () => {
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/projects" element={<Projects />} />
-              <Route path="/tasks" element={<Tasks projectTitle="Project Alpha" />} />
+              <Route path="/tasks" element={<Tasks />} />
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
           )}
