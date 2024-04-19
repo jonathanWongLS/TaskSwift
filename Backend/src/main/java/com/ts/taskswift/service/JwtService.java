@@ -1,10 +1,13 @@
 package com.ts.taskswift.service;
 
+import com.ts.taskswift.model.Token;
 import com.ts.taskswift.model.User;
+import com.ts.taskswift.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +16,10 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
     private final String SECRET_KEY = "04a8e45e2eaaf36f52ac2490530a44f115a66bbeb2acd451ef5f596ebe16dcb8";
+    private final TokenRepository tokenRepository;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -22,7 +27,8 @@ public class JwtService {
 
     public boolean isValid(String token, UserDetails user) {
         String username = extractUsername(token);
-        return (username.equals(user.getUsername())) && !isTokenExpired(token);
+        Token tokenExists = tokenRepository.findByToken(token).orElse(null);
+        return (username.equals(user.getUsername())) && !isTokenExpired(token) && tokenExists != null;
     }
 
     public boolean isTokenExpired(String token) {
