@@ -61,8 +61,8 @@ public class ProjectController {
             @RequestHeader("Authorization") String authorizationHeader
     ) {
         try {
-            ProjectProgress projectProgress = projectService.getProjectProgress(authorizationHeader);
-            return ResponseEntity.status(HttpStatus.OK).body(projectProgress);
+            List<ProjectProgress> projectProgressList = projectService.getProjectProgress(authorizationHeader);
+            return ResponseEntity.status(HttpStatus.OK).body(projectProgressList);
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist!");
         }
