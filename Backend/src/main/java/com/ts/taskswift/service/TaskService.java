@@ -72,22 +72,51 @@ public class TaskService {
         return taskCountByStatus;
     }
 
-    public List<Task> getTasksOrderedByDatetimeDesc(String authorizationHeader) {
+    public List<TaskAndProjectName> getTasksOrderedByDatetimeDesc(String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
         String username = jwtService.extractUsername(jwtToken);
         User user = (User) userDetailsService.loadUserByUsername(username);
 
+        List<TaskAndProjectName> assignedTasksAndProjectName = new ArrayList<>();
         Set<Task> assignedTasks = user.getAssignedTasks();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
         List<Task> assignedTasksList = new ArrayList<>(assignedTasks);
 
-        assignedTasksList.sort((o1, o2) ->
-                ZonedDateTime.parse(o2.getTaskTimelineEndDateTime(), formatter.withZone(ZoneId.of("Asia/Kuala_Lumpur")))
-                        .compareTo(
-                                ZonedDateTime.parse(o1.getTaskTimelineEndDateTime(), formatter.withZone(ZoneId.of("Asia/Kuala_Lumpur")))
-                        ));
-        return assignedTasksList;
+        assignedTasksList.sort(Comparator.comparing(o -> LocalDate.parse(o.getTaskTimelineEndDateTime())));
+
+        for (Task assignedTask: assignedTasksList) {
+            assignedTasksAndProjectName.add(new TaskAndProjectName(assignedTask, assignedTask.getProject().getProjectName()));
+        }
+
+        return assignedTasksAndProjectName;
+    }
+
+    public List<TaskAndProjectName> getPriorityTasks(String authorizationHeader) {
+        String jwtToken = authorizationHeader.substring(7);
+        String username = jwtService.extractUsername(jwtToken);
+        User user = (User) userDetailsService.loadUserByUsername(username);
+
+        LocalDate now = LocalDate.now(ZoneId.of("Asia/Kuala_Lumpur"));
+
+        Set<Task> assignedTasks = user.getAssignedTasks();
+
+        Iterator<Task> iterator = assignedTasks.iterator();
+        while (iterator.hasNext()) {
+            Task task = iterator.next();
+            LocalDate taskEndDate = LocalDate.parse(task.getTaskTimelineEndDateTime());
+            if (!(taskEndDate.compareTo(now) > 0 && taskEndDate.compareTo(now.plusDays(7)) <= 0)) {
+                iterator.remove();
+            }
+        }
+
+        List<Task> assignedTasksList = new ArrayList<>(assignedTasks);
+        List<TaskAndProjectName> assignedTasksAndProjectNameList = new ArrayList<>();
+        assignedTasksList.sort(Comparator.comparing(o -> LocalDate.parse(o.getTaskTimelineEndDateTime())));
+
+        for (Task task: assignedTasksList) {
+            assignedTasksAndProjectNameList.add(new TaskAndProjectName(task, task.getProject().getProjectName()));
+        }
+
+        return assignedTasksAndProjectNameList;
     }
 
     public Task addTaskToProject(Long projectId, TaskRequest addTaskToProjectRequest) {
