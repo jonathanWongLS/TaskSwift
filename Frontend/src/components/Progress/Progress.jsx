@@ -1,10 +1,33 @@
+import { useState,useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import PropTypes from 'prop-types';
 
 import "./Progress.css";
 
-const Progress = () => {
+const Progress = ({ projectTaskSummary }) => {
+  const [progressOfNonDoneProjects, setProgressOfNonDoneProjects] = useState([]);
+  const [progressOfDoneProjects, setProgressOfDoneProjects] = useState([]);
+
+  useEffect(() => {
+    const nonDoneProjects = [];
+    const doneProjects = [];
+
+    if (Array.isArray(projectTaskSummary)) {
+      for (let projectTaskDetail of projectTaskSummary) {
+        if ((projectTaskDetail.numberOfTasks - projectTaskDetail.numberOfNonDoneTasks) === projectTaskDetail.numberOfTasks) {
+          doneProjects.push(projectTaskDetail);
+        } else {
+          nonDoneProjects.push(projectTaskDetail);
+        }
+      }
+    }
+
+    setProgressOfDoneProjects(doneProjects);
+    setProgressOfNonDoneProjects(nonDoneProjects);
+  }, [projectTaskSummary]);
+
   return (
     <Card className="progress-card">
       <Card.Title className="progress-card-title">Progress</Card.Title>
@@ -16,16 +39,21 @@ const Progress = () => {
             </Accordion.Header>
             <Accordion.Body>
                 {
-                    [["Project 1", 4, 5], ["Project 2", 3, 10]].map((progressDetails, key) => {
+                    progressOfNonDoneProjects.length === 0 ? 
+                    <p className="d-flex justify-content-center">No ongoing projects!</p> 
+                    : 
+                    (
+                      progressOfNonDoneProjects.map((progressOfNonDoneProject, key) => {
                         return(
                             <Card key={key} className="project-progress-card">
                                 <Card.Body>
-                                    <h5>{progressDetails[0]}</h5>
-                                    <ProgressBar animated now={progressDetails[1]/progressDetails[2] * 100} />
+                                    <h5>{ progressOfNonDoneProject.project.projectName }</h5>
+                                    <ProgressBar label={ `${progressOfNonDoneProject.numberOfTasks - progressOfNonDoneProject.numberOfNonDoneTasks} / ${progressOfNonDoneProject.numberOfTasks} tasks completed!`} animated now={ progressOfNonDoneProject.numberOfNonDoneTasks/progressOfNonDoneProject.numberOfTasks * 100 } />
                                 </Card.Body>
                             </Card>
                         );
                     })
+                    )
                 }
             </Accordion.Body>
           </Accordion.Item>
@@ -35,16 +63,20 @@ const Progress = () => {
             </Accordion.Header>
             <Accordion.Body>
                 {
-                    ["Project 3", "Project 4"].map((completedProjectDetails, completedKey) => {
-                        return(
-                            <Card key={completedKey} className="project-progress-card">
-                                <Card.Body>
-                                    <h5>{ completedProjectDetails }</h5>
-                                    <ProgressBar animated variant="success" now={100} />
-                                </Card.Body>
-                            </Card>
-                        );
-                    })
+                  progressOfDoneProjects.length === 0 ? 
+                  <p className="d-flex justify-content-center">No completed projects!</p>
+                  :
+                  (
+                    progressOfDoneProjects.map((doneProjectDetail, doneKey) => {
+                      return(
+                          <Card key={doneKey} className="project-progress-card">
+                              <Card.Body>
+                                  <h5>{ doneProjectDetail.project.projectName }</h5>
+                                  <ProgressBar label="100%" animated variant="success" now={100} />
+                              </Card.Body>
+                          </Card>
+                      );
+                  }))
                 }
             </Accordion.Body>
           </Accordion.Item>
@@ -53,5 +85,9 @@ const Progress = () => {
     </Card>
   );
 };
+
+Progress.propTypes = {
+  projectTaskSummary: PropTypes.array
+}
 
 export default Progress;
