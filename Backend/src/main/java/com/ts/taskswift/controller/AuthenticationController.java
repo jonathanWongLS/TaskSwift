@@ -29,7 +29,7 @@ public class AuthenticationController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("One or more register values not found in JSON request!");
         } catch (UsernameAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User with that email address already exists!");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User with that username already exists!");
         }
     }
 
