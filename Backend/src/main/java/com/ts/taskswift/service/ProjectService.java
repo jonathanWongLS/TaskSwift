@@ -121,7 +121,7 @@ public class ProjectService {
             }
 
             workloadDistribution.setAssignedTasksCount(assignedTasksCount);
-            workloadDistribution.setTotalTasksCount(project.getAssignedUsers().size());
+            workloadDistribution.setTotalTasksCount(project.getTasks().size());
 
             workloadDistributionList.add(workloadDistribution);
         }
