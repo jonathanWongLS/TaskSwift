@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
+import AlertBox from "../../components/AlertBox/AlertBox";
 import PropTypes from "prop-types";
 
 import Card from "react-bootstrap/Card";
@@ -9,18 +10,19 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
-
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Spinner from 'react-bootstrap/Spinner';
 
 import { IoMdSearch } from "react-icons/io";
 import { GrAdd } from "react-icons/gr";
 import { FaRegUser } from "react-icons/fa6";
-import { HiOutlineClipboardCheck } from "react-icons/hi";
-import { BsDashLg } from "react-icons/bs";
 
 import "./Projects.css";
 
-const ProjectCard = ({ title, noOfAssignees, projectDeadline, link }) => {
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useJwt } from "react-jwt";
+
+const ProjectCard = ({ projectId, title, noOfAssignees, link }) => {
 
     const projectCardOnClick = () => {
         window.location.href = link;
@@ -28,8 +30,8 @@ const ProjectCard = ({ title, noOfAssignees, projectDeadline, link }) => {
     }
 
     return (
-        <Card className="project-card" onClick={ projectCardOnClick } style={{ cursor: "pointer" }}>
-            <Card.Title>{ title }</Card.Title>
+        <Card id={ projectId } className="project-card" onClick={ projectCardOnClick } style={{ cursor: "pointer" }}>
+            <Card.Title className="project-card-title">{ title }</Card.Title>
             <Card.Body className="project-card-body">
                 <div className="project-card-img">
                     <img src="./project-placeholder-image.jpg" alt="Project placeholder image" width="100%" height={200} />
@@ -37,11 +39,7 @@ const ProjectCard = ({ title, noOfAssignees, projectDeadline, link }) => {
                 <div className="project-card-info">
                     <div className="assignee-count">
                         <FaRegUser className="assignee-count-icon" fill="#DDEC68" size={30} />
-                        <p className="assignee-count-value">{` ${noOfAssignees}`}</p>
-                    </div>
-                    <div className="project-deadline">
-                        <HiOutlineClipboardCheck className="project-deadline-icon" stroke="#DDEC68" size={40}/>
-                        <p className="project-deadline-value">{ projectDeadline }</p>
+                        <p className="assignee-count-value">{` ${noOfAssignees} member(s)`}</p>
                     </div>
                 </div>
             </Card.Body>
@@ -50,81 +48,169 @@ const ProjectCard = ({ title, noOfAssignees, projectDeadline, link }) => {
 }
 
 const Projects = () => {
-    const [username, setUsername] = useState("Username");
-    const [projectCards, setProjectCards] = useState(
-        [
-            {
-                title: "Project #1",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-1",
-            },
-            {
-                title: "Project #2",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-2",
-            },
-            {
-                title: "Project #3",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-3",
-            },
-            {
-                title: "Project #4",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-4",
-            },
-            {
-                title: "Project #1",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-4",
-            },
-            {
-                title: "Project #1",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-5",
-            },
-            {
-                title: "Project #1",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-5",
-            },
-            {
-                title: "Project #6",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-6",
-            },
-            {
-                title: "Project #7",
-                noOfAssignees: 2,
-                projectDeadline: "10 Dec 2023",
-                projectId: "project-7",
-            },
-        ]
-    )
-    const [showAddProjectModal, setShowAddProjectModal] = useState(false);
+    const { decodedToken, isExpired } = useJwt(Cookies.get("jwt"));
     
-    const handleCloseAddProjectModal = () => {
-        setShowAddProjectModal(false);
-    }
-
+    const [projectCards, setProjectCards] = useState([])
+    const [showAddProjectModal, setShowAddProjectModal] = useState(false);
+    const [addProjectRequest, setAddProjectRequest] = useState({
+        projectName: null,
+        projectDesc: null,
+        projectAssigneesEmail: null
+    });
+    const [getProjectsLoading, setGetProjectsLoading] = useState(null);
+    const [addProjectLoading, setAddProjectLoading] = useState(false);
+    const [getProjectsError, setGetProjectsError] = useState(null);
+    const [addProjectError, setAddProjectError] = useState(null);
+    
     const handleOpenAddProjectModal = () => {
         setShowAddProjectModal(true);
     }
 
+    const handleCloseAddProjectModal = () => {
+        setShowAddProjectModal(false);
+    }
+    
+    const handleSaveAddProjectModal = () => {
+        setAddProjectLoading(true);
+        let projectAssigneesEmailArr;
+        let addProjectRequestJson;
+
+        if (addProjectRequest.projectAssigneesEmail) {
+            let projectAssigneesEmailStr = addProjectRequest.projectAssigneesEmail.trim();
+            projectAssigneesEmailArr = projectAssigneesEmailStr.split(",");
+            for (let i = 0; i < projectAssigneesEmailArr.length; i++) {
+                projectAssigneesEmailArr[i] = projectAssigneesEmailArr[i].trim();
+            }
+            addProjectRequestJson = {
+                "project": {
+                    "projectName": addProjectRequest.projectName,
+                    "projectDescription": addProjectRequest.projectDesc,
+                },
+                "assignedUserEmail": projectAssigneesEmailArr,
+            };
+        } else {
+            addProjectRequestJson = {
+                "project": {
+                    "projectName": addProjectRequest.projectName,
+                    "projectDescription": addProjectRequest.projectDesc,
+                },
+                "assignedUserEmail": [],
+            }
+        }
+
+        axios.post(
+            "http://localhost:8081/api/v1/project", 
+            addProjectRequestJson,
+            {
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    "Authorization": "Bearer " + Cookies.get("jwt")
+                }
+            })
+            .then((response) => {
+                console.log(response.data);
+                location.reload();
+            })
+            .catch((error) => {
+                if (error.response) {
+                    // The server responded with a status code outside the 2xx range
+                    console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                    if (error.response.status == 401) {
+                        window.location.href = "/sign-in?expired=true";
+                    } else {
+                        setAddProjectError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                    setAddProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                    setAddProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                }
+                setTimeout(() => {
+                    setAddProjectError(null);
+                }, 6000);
+            })
+            .finally(() => {
+                setShowAddProjectModal(false);
+                setAddProjectLoading(false);
+            });
+    };
+
+    const handleCancelAddProjectModal = () => {
+        setShowAddProjectModal(false);
+    };
+
+    const handleProjectUsernameChange = (e) => {
+        e.preventDefault();
+        setAddProjectRequest({ ...addProjectRequest, projectName: e.target.value });
+        console.log(addProjectRequest);
+    };
+
+    const handleProjectDescChange = (e) => {
+        e.preventDefault();
+        setAddProjectRequest({ ...addProjectRequest, projectDesc: e.target.value });
+        console.log(addProjectRequest);
+    };
+
+    const handleProjectAssigneeEmail = (e) => {
+        e.preventDefault();
+        setAddProjectRequest({ ...addProjectRequest, projectAssigneesEmail: e.target.value})
+        console.log(addProjectRequest);
+    };
+
+    useEffect(() => {
+        setGetProjectsLoading(true);
+
+        axios.get(
+            "http://localhost:8081/api/v1/projects", 
+            {
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    "Authorization": "Bearer " + Cookies.get("jwt")
+                }
+            }
+        ).then((response) => {
+            setProjectCards(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+            if (error.response) {
+                // The server responded with a status code outside the 2xx range
+                console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                if (error.response.status == 401) {
+                    window.location.href = "/sign-in?expired=true";
+                } else {
+                    setGetProjectsError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                setGetProjectsError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+            } else {
+                // Something happened in setting up the request that triggered an error
+                console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                setGetProjectsError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+            }
+            setTimeout(() => {
+                setGetProjectsError(null);
+            }, 6000);
+        })
+        .finally(() => setGetProjectsLoading(false));
+    }, [])
+
+
     return (
         <>
-            <Header />
+            { decodedToken ? <Header loggedIn={ true } username={ decodedToken.sub } /> : <Header loggedIn={ false } username={null} /> }
             <div className="projects-container">
+                
+                <AlertBox errorMessage={ getProjectsError } />
+                <AlertBox errorMessage={ addProjectError } />
+                
                 <div className="projects-top-container">
-                    <h3>Hi, { username }!</h3>
+                    <h3>Hi, { decodedToken ? decodedToken.sub : "-" }!</h3>
                     <div className="projects-search-add-project">                    
                         <InputGroup className="projects-input-group">
                             <Form.Control 
@@ -148,30 +234,23 @@ const Projects = () => {
                                                 <Form.Label>
                                                     <h5>Project Name</h5> 
                                                 </Form.Label>
-                                                <Form.Control type="text" />
+                                                <Form.Control 
+                                                    type="text" 
+                                                    value={ addProjectRequest.projectName } 
+                                                    onChange={ handleProjectUsernameChange }
+                                                />
                                             </Form.Group>
                                             <Form.Group className="mb-3 project-desc-group">
                                                 <Form.Label>
                                                     <h5>Project Description</h5>
                                                 </Form.Label>
-                                                <Form.Control as="textarea" rows={3} />
+                                                <Form.Control 
+                                                    as="textarea" 
+                                                    rows={3}
+                                                    value={ addProjectRequest.projectDesc }
+                                                    onChange={ handleProjectDescChange }
+                                                />
                                             </Form.Group>
-                                            <div className="project-timeframe-container">
-                                                <Form.Group className="mb-3 project-timeframe-group">
-                                                    <Form.Label>
-                                                        <h5>Project Timeframe</h5>
-                                                    </Form.Label>
-                                                    <div className="project-timeframe-inputs-container">
-                                                        <InputGroup className="task-timeframe-start-group">
-                                                            <DatePicker label="Start Date" />
-                                                        </InputGroup>
-                                                        <BsDashLg />
-                                                        <InputGroup className="project-timeframe-end-group">
-                                                            <DatePicker label="End Date" />
-                                                        </InputGroup>
-                                                    </div>
-                                                </Form.Group>
-                                            </div> 
                                         </Form>
                                     </Col>
                                     <Col sm={12} md={12} xl={4}>
@@ -179,48 +258,71 @@ const Projects = () => {
                                             <Form.Label>
                                                 <h5>Add Project Members</h5>
                                             </Form.Label>
-                                            <Form.Control type="text" placeholder="user@email.com, user2@email.com, ..." />
+                                            <Form.Control 
+                                                type="text" 
+                                                placeholder="user@email.com, user2@email.com, ..." 
+                                                value={ addProjectRequest.projectAssigneesEmail }
+                                                onChange={ handleProjectAssigneeEmail }
+                                            />
                                             <Form.Text muted>Enter multiple comma-separated email addresses</Form.Text>
                                         </Form.Group>
                                     </Col>
                                 </Row>
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="primary" onClick={ handleCloseAddProjectModal }>
-                                Save
+                                <Button variant="primary" onClick={ handleSaveAddProjectModal }>
+                                    Save {''}
+                                    {
+                                        addProjectLoading ? (
+                                            <Spinner animation="grow" size="sm" />
+                                        ) : (
+                                            ''
+                                        )
+                                    }
                                 </Button>
-                                <Button variant="danger" onClick={ handleCloseAddProjectModal }>
-                                Cancel
+                                <Button variant="danger" onClick={ handleCancelAddProjectModal }>
+                                    Cancel
                                 </Button>
                             </Modal.Footer>
                         </Modal>
                     </div>
                 </div>
                 <div className="projects-bottom-container">
-                    {projectCards.map((projectCardDetails, key) => {
-                        return (
-                            <ProjectCard
-                                key={key} 
-                                title={projectCardDetails.title} 
-                                noOfAssignees={projectCardDetails.noOfAssignees} 
-                                projectDeadline={projectCardDetails.projectDeadline} 
-                                link={`/projects/${projectCardDetails.projectId}`}
-                            />
-                        );
-                    })}
+                    {
+                        getProjectsLoading ? (
+                            <p>Loading projects...</p>
+                        ) :  
+                        (
+                            projectCards.length <= 0 ? (
+                                <p>No projects yet.</p>
+                            ) : (
+                                projectCards
+                                .sort((a, b) => a.projectId > b.projectId ? 1 : -1)
+                                .map((projectCardDetails, key) => {
+                                    return (
+                                        <ProjectCard
+                                            key={key} 
+                                            projectId={projectCardDetails.projectId}
+                                            title={projectCardDetails.projectName} 
+                                            noOfAssignees={projectCardDetails.assignedUsers.length} 
+                                            link={`/tasks?projectId=${projectCardDetails.projectId}`}
+                                        />
+                                    );
+                                })
+                            )
+                        )
+                    }
                 </div>
             </div>
         </>
     );
 }
 
-
-
 ProjectCard.propTypes = {
-    title: PropTypes.string.isRequired,
-    noOfAssignees: PropTypes.number.isRequired,
-    projectDeadline: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
+    projectId: PropTypes.number,
+    title: PropTypes.string,
+    noOfAssignees: PropTypes.number,
+    link: PropTypes.string,
 }
 
 export default Projects
