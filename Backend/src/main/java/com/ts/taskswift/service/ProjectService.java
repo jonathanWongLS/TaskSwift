@@ -3,6 +3,7 @@ package com.ts.taskswift.service;
 import com.ts.taskswift.exception.ProjectNotFoundException;
 import com.ts.taskswift.model.*;
 import com.ts.taskswift.repository.ProjectRepository;
+import com.ts.taskswift.repository.TaskRepository;
 import com.ts.taskswift.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
     private final UserDetailsServiceImpl userDetailsService;
     private final InvitationService invitationService;
     private final EmailService emailService;
@@ -234,5 +236,20 @@ public class ProjectService {
         project.getAssignedUsers().clear();
 
         projectRepository.delete(project);
+    }
+
+    public void deleteProjectMemberFromProject(Long projectId, Long projectMemberToRemoveId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project with ID " + projectId + " does not exist!"));
+        Set<User> users = project.getAssignedUsers();
+        users.removeIf(user -> user.getId().equals(projectMemberToRemoveId));
+        project.setAssignedUsers(users);
+
+        for (Task task : project.getTasks()) {
+            Set<User> currTaskAssignedUsers = task.getAssignedUsers();
+            currTaskAssignedUsers.removeIf(assignedUser -> assignedUser.getId().equals(projectMemberToRemoveId));
+            task.setAssignedUsers(currTaskAssignedUsers);
+            taskRepository.save(task);
+        }
+        projectRepository.save(project);
     }
 }
