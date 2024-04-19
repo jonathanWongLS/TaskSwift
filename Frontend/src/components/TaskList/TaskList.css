@@ -126,7 +126,7 @@
     min-width: 550px;
 }
 
-.modal-add-task {
+.modal-add-task, .modal-edit-task {
     min-width: 60%;
     border: 1px solid black;
     border-radius: 10px;

@@ -2,6 +2,10 @@
     padding: 1em 10em;
 }
 
+.edit-project-name-icon, .edit-project-desc-icon {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 992px) {
     .tasks-top-container, .tasks-bottom-container {
         padding: 1em 2em;
