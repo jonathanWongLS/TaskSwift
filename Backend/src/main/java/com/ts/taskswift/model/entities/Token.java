@@ -1,4 +1,4 @@
-package com.ts.taskswift.model;
+package com.ts.taskswift.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

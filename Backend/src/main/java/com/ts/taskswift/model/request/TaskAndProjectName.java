@@ -1,5 +1,6 @@
-package com.ts.taskswift.model;
+package com.ts.taskswift.model.request;
 
+import com.ts.taskswift.model.entities.Task;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.ts.taskswift.model;
+package com.ts.taskswift.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
