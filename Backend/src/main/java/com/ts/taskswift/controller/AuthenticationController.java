@@ -1,8 +1,8 @@
 package com.ts.taskswift.controller;
 
 import com.ts.taskswift.exception.UsernameAlreadyExistsException;
-import com.ts.taskswift.model.AuthenticationResponse;
-import com.ts.taskswift.model.User;
+import com.ts.taskswift.model.request.AuthenticationResponse;
+import com.ts.taskswift.model.entities.User;
 import com.ts.taskswift.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +20,14 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    /**
+     * Endpoint for user registration.
+     *
+     * @param request the User object containing registration details
+     * @return ResponseEntity with status 200 and the AuthenticationResponse if successful,
+     *         status 400 with an error message if registration values are missing,
+     *         or status 409 with an error message if the username already exists
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(
             @RequestBody User request
@@ -33,6 +41,13 @@ public class AuthenticationController {
         }
     }
 
+    /**
+     * Endpoint for user login.
+     *
+     * @param request the User object containing login credentials
+     * @return ResponseEntity with status 200 and the AuthenticationResponse if login is successful,
+     *         or status 401 with an error message if the username or password is invalid
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login (
             @RequestBody User request

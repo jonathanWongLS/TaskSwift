@@ -1,6 +1,6 @@
 package com.ts.taskswift.repository;
 
-import com.ts.taskswift.model.Project;
+import com.ts.taskswift.model.entities.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

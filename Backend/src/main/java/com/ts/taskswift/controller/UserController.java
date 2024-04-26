@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserDetailsServiceImpl userDetailsService;
 
+    /**
+     * Endpoint for retrieving a user by their ID.
+     *
+     * @param userId [Path Variable] the ID of the user to retrieve
+     * @return ResponseEntity with status 200 and the user details if found, or status 404 if the user is not found
+     */
     @GetMapping(path = "/user/{id}")
     public ResponseEntity<?> getUserById(
             @PathVariable("id") Long userId

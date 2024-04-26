@@ -1,13 +1,12 @@
 package com.ts.taskswift.controller;
 
 import com.ts.taskswift.exception.ResourceNotFoundException;
-import com.ts.taskswift.model.TaskAndProjectName;
-import com.ts.taskswift.model.TaskRequest;
-import com.ts.taskswift.model.Task;
-import com.ts.taskswift.model.User;
+import com.ts.taskswift.model.request.TaskAndProjectName;
+import com.ts.taskswift.model.request.TaskRequest;
+import com.ts.taskswift.model.entities.Task;
+import com.ts.taskswift.model.entities.User;
 import com.ts.taskswift.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,9 +19,15 @@ import java.util.Set;
 @RequestMapping(path = "api/v1")
 @RequiredArgsConstructor
 public class TaskController {
-    @Autowired
+
     private final TaskService taskService;
 
+    /**
+     * Endpoint for retrieving a task by its ID.
+     *
+     * @param taskId [Path Variable] the ID of the task to retrieve
+     * @return ResponseEntity with status 200 and the task with the specified ID if successful, or status 404 if the task is not found
+     */
     @GetMapping(path = "/task/{taskId}")
     public ResponseEntity<?> getTaskById(
             @PathVariable("taskId") Long taskId
@@ -36,6 +41,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for retrieving tasks belonging to a specific project.
+     *
+     * @param projectId [Path Variable] the ID of the project to retrieve tasks from
+     * @return ResponseEntity with status 200 and a list of tasks belonging to the specified project if successful, or status 404 if the project is not found
+     */
     @GetMapping(path = "/project/{projectId}/tasks")
     public ResponseEntity<?> getTasksFromProject(
             @PathVariable("projectId") Long projectId
@@ -49,6 +60,13 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for retrieving a task from a specific project by the task's and project's ID.
+     *
+     * @param projectId [Path Variable] the ID of the project containing the task
+     * @param taskId    [Path Variable] the ID of the task to retrieve
+     * @return ResponseEntity with status 200 and the task with the specified ID from the specified project if successful, or status 404 if the task or project is not found
+     */
     @GetMapping(path = "/project/{projectId}/tasks/{taskId}")
     public ResponseEntity<?> getTaskFromProject(
             @PathVariable("projectId") Long projectId,
@@ -63,6 +81,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for retrieving the count of tasks by their status assigned to the authenticated user.
+     *
+     * @param authorizationHeader the authorization header containing the JWT token
+     * @return ResponseEntity with status 200 and an array representing the count of tasks by their status if successful, or status 404 if the user is not found
+     */
     @GetMapping(path = "/task-count-status")
     public ResponseEntity<?> getTaskCountByStatus(
             @RequestHeader("Authorization") String authorizationHeader
@@ -75,6 +99,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for retrieving tasks ordered by date in descending order.
+     *
+     * @param authorizationHeader the authorization header containing the JWT token
+     * @return ResponseEntity with status 200 and a list of tasks ordered by datetime in descending order if successful, or status 404 if the user is not found
+     */
     @GetMapping(path = "/tasks-ordered-by-datetime-desc")
     public ResponseEntity<?> getTasksOrderedByDatetimeDesc(
             @RequestHeader("Authorization") String authorizationHeader
@@ -87,6 +117,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for retrieving tasks with higher priority (tasks with deadlines at most 7 days away).
+     *
+     * @param authorizationHeader the authorization header containing the JWT token
+     * @return ResponseEntity with status 200 and a list of priority tasks if successful, or status 404 if the user is not found
+     */
     @GetMapping(path = "/priority-tasks")
     public ResponseEntity<?> getPriorityTasks(
             @RequestHeader("Authorization") String authorizationHeader
@@ -99,6 +135,13 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for adding a task to a project.
+     *
+     * @param projectId            [Path Variable] the ID of the project to add the task to
+     * @param addTaskToProjectRequest [Request Body] the request containing details of the task to add
+     * @return ResponseEntity with status 200 and the added task if successful, or status 404 if the project is not found
+     */
     @PostMapping(path = "/add-task/{projectId}")
     public ResponseEntity<?> addTaskToProject(
             @PathVariable("projectId") Long projectId,
@@ -113,6 +156,14 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for updating a task in a project.
+     *
+     * @param projectId           [Path Variable] the ID of the project containing the task to update
+     * @param taskId              [Path Variable] the ID of the task to update
+     * @param updatedTaskRequest [Request Body] the request containing updated details of the task
+     * @return ResponseEntity with status 200 and the updated project if successful, or status 404 if the project or task is not found
+     */
     @PutMapping(path = "/project/{projectId}/task/{taskId}")
     public ResponseEntity<?> updateTaskInProject(
             @PathVariable("projectId") Long projectId,
@@ -128,6 +179,13 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for deleting a task in a project.
+     *
+     * @param projectId [Path Variable] the ID of the project containing the task to delete
+     * @param taskId    [Path Variable] the ID of the task to delete
+     * @return ResponseEntity with status 200 if successful, or status 404 if the project or task is not found
+     */
     @DeleteMapping(path = "/project/{projectId}/task/{taskId}")
     public ResponseEntity<?> deleteTaskInProject(
             @PathVariable("projectId") Long projectId,
@@ -142,6 +200,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint for retrieving users assigned to a task.
+     *
+     * @param taskId [Path Variable] the ID of the task to retrieve assigned users
+     * @return ResponseEntity with status 200 and a set of users assigned to the task if successful, or status 404 if the task is not found
+     */
     @GetMapping(path = "/task/{taskId}/assignedusers")
     public ResponseEntity<?> getTaskAssignedUsers(
             @PathVariable("taskId") Long taskId

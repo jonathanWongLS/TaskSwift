@@ -27,10 +27,19 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomLogoutHandler logoutHandler;
 
+    /**
+     * Configures security filter chain.
+     *
+     * @param http HttpSecurity object to configure security settings
+     * @return the SecurityFilterChain object
+     * @throws Exception if an error occurs while configuring security
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                // Permit all users to Registration, Login and Invite endpoints as user would usually not possess a JWT token.
+                // Other endpoints require a valid JWT token to access
                 .authorizeHttpRequests(
                         req -> req
                                 .requestMatchers (
@@ -39,6 +48,7 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 ).userDetailsService(userDetailsService)
+                // User state is not tracked but authentication is carried out on a per-request basis
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -48,6 +58,7 @@ public class SecurityConfig {
                         )
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
+                // User can log out with the URL "/logout"
                 .logout(l -> l
                         .logoutUrl("/logout")
                         .addLogoutHandler(logoutHandler)
@@ -57,11 +68,23 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Creates a PasswordEncoder bean.
+     *
+     * @return a PasswordEncoder object
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Creates an AuthenticationManager bean.
+     *
+     * @param authenticationConfiguration AuthenticationConfiguration object to get authentication manager
+     * @return an AuthenticationManager object
+     * @throws Exception if an error occurs while creating authentication manager
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

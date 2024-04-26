@@ -1,6 +1,6 @@
 package com.ts.taskswift.config;
 
-import com.ts.taskswift.model.Token;
+import com.ts.taskswift.model.entities.Token;
 import com.ts.taskswift.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +14,13 @@ import org.springframework.stereotype.Component;
 public class CustomLogoutHandler implements LogoutHandler {
     private final TokenRepository tokenRepository;
 
+    /**
+     * Handles logout by removing the token from the database.
+     *
+     * @param request        the HTTP servlet request
+     * @param response       the HTTP servlet response
+     * @param authentication the current authentication
+     */
     @Override
     public void logout(
             HttpServletRequest request,
@@ -27,10 +34,10 @@ public class CustomLogoutHandler implements LogoutHandler {
 
         String token = authHeader.substring(7);
 
-        // get stored token from DB
+        // Get stored token from DB
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
 
-        // remove the token
+        // Remove the token
         if (token != null) {
             tokenRepository.delete(storedToken);
         }
