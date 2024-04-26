@@ -90,7 +90,7 @@ const SignUp = () => {
 
       if (token) {
         axios.post(
-          `http://13.212.104.51:8081/api/v1/invite?token=${token}`, 
+          `https://13.212.104.51:8081/api/v1/invite?token=${token}`, 
           {
             "username": formData.username,
             "email": formData.email,
@@ -130,7 +130,7 @@ const SignUp = () => {
         );
       } else {
         axios.post(
-          "http://13.212.104.51:8081/api/v1/register", 
+          "https://13.212.104.51:8081/api/v1/register", 
           {
             "username": formData.username,
             "email": formData.email,
