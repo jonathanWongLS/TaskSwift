@@ -4,9 +4,9 @@ spring:
   application:
     name: taskswift
   datasource:
-    url: jdbc:postgresql://database-1.cj48agmumj7n.ap-southeast-1.rds.amazonaws.com:5432/taskswift
-    username: postgres
-    password: password
+    url: jdbc:postgresql://ts-database-v1.cj48agmumj7n.ap-southeast-1.rds.amazonaws.com:5432/taskswift
+    username:
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,7 +19,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: noreply.taskswift@gmail.com
-    password: jcwzwovftvuhamem
+    password:
     properties:
       mail:
         smtp:
