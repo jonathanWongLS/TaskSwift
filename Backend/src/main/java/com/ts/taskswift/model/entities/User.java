@@ -1,6 +1,7 @@
-package com.ts.taskswift.model;
+package com.ts.taskswift.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ts.taskswift.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
