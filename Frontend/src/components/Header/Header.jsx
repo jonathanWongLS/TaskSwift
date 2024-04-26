@@ -33,13 +33,11 @@ const Header = ({ loggedIn, username }) => {
         }
       }
     ).then(() => {
-      console.log("Logged out!");
       Cookies.remove("jwt");
       // window.location.href = "/sign-up";
     }).catch((error) => {
       if (error.response) {
         // The server responded with a status code outside the 2xx range
-        console.log('Error response:', error.response);
         if (error.response.status == 401) {
           window.location.href = "/sign-in?expired=true";
         } else {
@@ -47,11 +45,9 @@ const Header = ({ loggedIn, username }) => {
         }
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         setLogoutError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       } else {
         // Something happened in setting up the request that triggered an error
-        console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         setLogoutError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       }
       setTimeout(() => {

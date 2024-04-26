@@ -217,32 +217,32 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
 
     const handleTaskPrioritySelectAdd = (e) => {
         setTaskDetailsAdd({...taskDetailsAdd, selectedTaskPriority: e});
-        console.log(taskDetailsAdd.selectedTaskPriority);
+        
     };
 
     const handleTaskStatusSelectAdd = (e) => {
         setTaskDetailsAdd({...taskDetailsAdd, selectedTaskStatus: e});
-        console.log(taskDetailsAdd.selectedTaskStatus);
+        
     };
 
     const handleTaskNameChangeAdd = (e) => {
         setTaskDetailsAdd({...taskDetailsAdd, taskName: e.target.value});
-        console.log(taskDetailsAdd.taskName);
+        
     };
 
     const handleTaskDescChangeAdd = (e) => {
         setTaskDetailsAdd({...taskDetailsAdd, taskDesc: e.target.value});
-        console.log(taskDetailsAdd.taskDesc);
+        
     };
 
     const handleTaskTimelineStartDateSelectAdd = (e) => { 
         setTaskDetailsAdd({...taskDetailsAdd, taskTimelineStartDate: e});
-        console.log(taskDetailsAdd.taskTimelineStartDate);
+        
     };
 
     const handleTaskTimelineEndDateSelectAdd = (e) => {
         setTaskDetailsAdd({...taskDetailsAdd, taskTimelineEndDate: e});
-        console.log(taskDetailsAdd.taskTimelineEndDate);
+        
     };
 
     const handleCheckboxAssigneesChangeAdd = (e) => {
@@ -258,7 +258,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
                 checkedAssignees: prevTaskDetailsAdd.checkedAssignees.filter((item) => item !== parseInt(value))
             }));
         }
-        console.log(taskDetailsAdd.checkedAssignees);
+        
     };
 
     const handleAddTaskToProject = () => {
@@ -296,7 +296,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
         }
 
         axios.post(
-            `http://localhost:8081/api/v1/add-task/${projectId}`, 
+            `http://13.212.104.51:8081/api/v1/add-task/${projectId}`, 
             {
                 taskToAdd: {
                     taskName: taskDetailsAdd.taskName,
@@ -315,13 +315,13 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
                 }
             }
         ).then((response) => {
-            console.log(response.data);
+            
             location.reload();
         })
         .catch((error) => {
             if (error.response) {
                 // The server responded with a status code outside the 2xx range
-                console.log('Error response:', error.response);
+                
                 if (error.response.status == 401) {
                     window.location.href = "/sign-in?expired=true";
                 } else {
@@ -329,11 +329,11 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
                 }
             } else if (error.request) {
                 // The request was made but no response was received
-                console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setAddTaskError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             } else {
                 // Something happened in setting up the request that triggered an error
-                console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setAddTaskError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             }
             setTimeout(() => {
@@ -446,50 +446,50 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
         };
 
         setTaskDetailsEdit(updatedTaskDetails);
-        console.log(updatedTaskDetails);
+        
         setShowEditTaskModal(true);   
     };
 
     const handleTaskPrioritySelectEdit = (e) => {
         setTaskDetailsEdit({...taskDetailsEdit, selectedTaskPriority: e});
-        console.log(taskDetailsEdit.selectedTaskPriority);
+        
     };
 
     const handleTaskStatusSelectEdit = (e) => {
         setTaskDetailsEdit({...taskDetailsEdit, selectedTaskStatus: e});
-        console.log(taskDetailsEdit.selectedTaskStatus);
+        
     };
 
     const handleTaskNameChangeEdit = (e) => {
         setTaskDetailsEdit({...taskDetailsEdit, taskName: e.target.value});
-        console.log(taskDetailsEdit.taskName);
+        
     };
 
     const handleTaskDescChangeEdit = (e) => {
         setTaskDetailsEdit({...taskDetailsEdit, taskDesc: e.target.value});
-        console.log(taskDetailsEdit.taskDesc);
+        
     };
 
     const handleTaskTimelineStartDateSelectEdit = (e) => {
         setTaskDetailsEdit({...taskDetailsEdit, taskTimelineStartDate: e});
-        console.log(taskDetailsEdit.taskTimelineStartDate);
+        
     };
 
     const handleTaskTimelineEndDateSelectEdit = (e) => {
         setTaskDetailsEdit({...taskDetailsEdit, taskTimelineEndDate: e });
-        console.log(taskDetailsEdit.taskTimelineEndDate);
+        
     };
 
     const handleCheckboxAssigneesChangeEdit = (e) => {
         const { value, checked } = e.target;
-        console.log({value, checked});
+        
         if (checked) {
             setTaskDetailsEdit(prevTaskDetailsEdit => ({
                 ...prevTaskDetailsEdit,
                 checkedAssignees: [...prevTaskDetailsEdit.checkedAssignees, parseInt(value)]
             }))
         } else {
-            console.log(taskDetailsEdit)
+            
             setTaskDetailsEdit(prevTaskDetailsEdit => ({
                 ...prevTaskDetailsEdit,
                 checkedAssignees: prevTaskDetailsEdit.checkedAssignees.filter((item) => item !== parseInt(value))
@@ -579,7 +579,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
         }
 
         axios.put(
-            `http://localhost:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`, 
+            `http://13.212.104.51:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`, 
             {
                 taskToAdd: {
                     taskName: taskDetailsEdit.taskName,
@@ -598,13 +598,13 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
                 }
             }
         ).then((response) => {
-            console.log(response.data);
+            
             location.reload();
         })
         .catch((error) => {
             if (error.response) {
                 // The server responded with a status code outside the 2xx range
-                console.log('Error response:', error.response);
+                
                 if (error.response.status == 401) {
                     window.location.href = "/sign-in?expired=true";
                 } else {
@@ -612,11 +612,11 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
                 }
             } else if (error.request) {
                 // The request was made but no response was received
-                console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setEditTaskError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             } else {
                 // Something happened in setting up the request that triggered an error
-                console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setEditTaskError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             }
             setTimeout(() => {
@@ -640,7 +640,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
     const handleDeleteTask = () => {
         setDeleteTaskLoading(true);
         axios.delete(
-            `http://localhost:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`,
+            `http://13.212.104.51:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`,
             {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -648,14 +648,14 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
                 }
             }
         ).then((response) => {
-            console.log(response.data);
+            
             setShowDeleteTaskModal(false);
             location.reload();
         })
         .catch((error) => {
             if (error.response) {
                 // The server responded with a status code outside the 2xx range
-                console.log('Error response:', error.response);
+                
                 if (error.response.status == 401) {
                     window.location.href = "/sign-in?expired=true";
                 } else {
@@ -663,11 +663,11 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
                 }
             } else if (error.request) {
                 // The request was made but no response was received
-                console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setDeleteTaskError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             } else {
                 // Something happened in setting up the request that triggered an error
-                console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setDeleteTaskError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             }
             setTimeout(() => {

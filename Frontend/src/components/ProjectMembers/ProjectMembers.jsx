@@ -27,7 +27,7 @@ const ProjectMemberCard = ({ projectId, projectMemberId, projectMemberName }) =>
     const handleDeleteMember = (projectMemberId) => {
         setConfirmDeleteMemberLoading(true);
         axios.delete(
-            `http://localhost:8081/api/v1/project/${projectId}/remove/${projectMemberId}`,
+            `http://13.212.104.51:8081/api/v1/project/${projectId}/remove/${projectMemberId}`,
             {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -35,13 +35,11 @@ const ProjectMemberCard = ({ projectId, projectMemberId, projectMemberName }) =>
                 }
             }
         ).then((response) => {
-            console.log(response.data);
             location.reload();
         })
         .catch((error) => {
             if (error.response) {
                 // The server responded with a status code outside the 2xx range
-                console.log('Error response:', error.response);
                 if (error.response.status == 401) {
                     window.location.href = "/sign-in?expired=true";
                 } else {
@@ -49,11 +47,11 @@ const ProjectMemberCard = ({ projectId, projectMemberId, projectMemberName }) =>
                 }
             } else if (error.request) {
                 // The request was made but no response was received
-                console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setConfirmDeleteMemberError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             } else {
                 // Something happened in setting up the request that triggered an error
-                console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setConfirmDeleteMemberError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             }
             setTimeout(() => {
@@ -115,7 +113,7 @@ const ProjectMembers = ({ projectMembers, projectId }) => {
 
     const handleEmailAddressesToAddChange = (e) => {
         setEmailAddressesToAdd(e.target.value);
-        console.log(emailAddressesToAdd);
+        
     };
 
     const handleAddMember = () => {
@@ -127,7 +125,7 @@ const ProjectMembers = ({ projectMembers, projectId }) => {
         }
 
         axios.post(
-            `http://localhost:8081/api/v1/project/${projectId}/assign-users`,
+            `http://13.212.104.51:8081/api/v1/project/${projectId}/assign-users`,
             newProjectAssigneesEmailArr,
             {
                 headers: {
@@ -136,13 +134,13 @@ const ProjectMembers = ({ projectMembers, projectId }) => {
                 }
             }
         ).then((response) => {
-            console.log(response.data);
+            
             location.reload();
         })
         .catch((error) => {
             if (error.response) {
                 // The server responded with a status code outside the 2xx range
-                console.log('Error response:', error.response);
+                
                 if (error.response.status == 401) {
                     window.location.href = "/sign-in?expired=true";
                 } else {
@@ -150,11 +148,11 @@ const ProjectMembers = ({ projectMembers, projectId }) => {
                 }
             } else if (error.request) {
                 // The request was made but no response was received
-                console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setAddMemberError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             } else {
                 // Something happened in setting up the request that triggered an error
-                console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+                
                 setAddMemberError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             }
             setTimeout(() => {

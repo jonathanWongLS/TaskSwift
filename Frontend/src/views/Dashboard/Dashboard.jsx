@@ -51,7 +51,7 @@ const Dashboard = () => {
   const getTaskCountByStatus = async () => {
     setGetTaskCountByStatusLoading(true);
     await axios.get(
-      'http://localhost:8081/api/v1/task-count-status',
+      'http://13.212.104.51:8081/api/v1/task-count-status',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -66,12 +66,12 @@ const Dashboard = () => {
         completed: response.data[1],
         overdue: response.data[2]
       });
-      console.log(response.data);
+      
     }).catch((error) => {
       setGetTaskCountByStatusLoading(false);
       if (error.response) {
         // The server responded with a status code outside the 2xx range
-        console.log('Error response:', error.response);
+        
         if (error.response.status == 401) {
           window.location.href = "/sign-in?expired=true";
         } else {
@@ -79,11 +79,11 @@ const Dashboard = () => {
         }
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetTaskCountByStatusError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       } else {
         // Something happened in setting up the request that triggered an error
-        console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetTaskCountByStatusError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       }
       setTimeout(() => {
@@ -96,7 +96,7 @@ const Dashboard = () => {
   const getTasksOrderedByCalendarDesc = async () => {
     setGetTasksOrderedByCalendarDescLoading(true);
     await axios.get(
-      'http://localhost:8081/api/v1/tasks-ordered-by-datetime-desc',
+      'http://13.212.104.51:8081/api/v1/tasks-ordered-by-datetime-desc',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -105,11 +105,11 @@ const Dashboard = () => {
       }
     ).then((response) => {
       setTasksOrderedByCalendarDesc(response.data);
-      console.log(response.data);
+      
     }).catch((error) => {
       if (error.response) {
         // The server responded with a status code outside the 2xx range
-        console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         if (error.response.status == 401) {
           window.location.href = "/sign-in?expired=true";
         } else {
@@ -117,11 +117,11 @@ const Dashboard = () => {
         }
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetTasksOrderedByCalendarDescError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       } else {
         // Something happened in setting up the request that triggered an error
-        console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetTasksOrderedByCalendarDescError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       }
       setTimeout(() => {
@@ -134,7 +134,7 @@ const Dashboard = () => {
   const getProjectTaskSummary = async () => {
     setGetProjectTaskSummaryLoading(true);
     await axios.get(
-      'http://localhost:8081/api/v1/project-task-summary',
+      'http://13.212.104.51:8081/api/v1/project-task-summary',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -146,7 +146,7 @@ const Dashboard = () => {
     }).catch((error) => {
       if (error.response) {
         // The server responded with a status code outside the 2xx range
-        console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         if (error.response.status == 401) {
           window.location.href = "/sign-in?expired=true";
         } else {
@@ -154,11 +154,11 @@ const Dashboard = () => {
         }
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetProjectTaskSummaryError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       } else {
         // Something happened in setting up the request that triggered an error
-        console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetProjectTaskSummaryError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       }
       setTimeout(() => {
@@ -171,7 +171,7 @@ const Dashboard = () => {
   const getProjectProgress = async () => {
     setGetProjectProgressLoading(true);
     await axios.get(
-      'http://localhost:8081/api/v1/project-progress',
+      'http://13.212.104.51:8081/api/v1/project-progress',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -180,11 +180,11 @@ const Dashboard = () => {
       }
     ).then((response) => {
       setProjectProgress(response.data);
-      console.log("Project Progress : ", response.data);
+      
     }).catch((error) => {
       if (error.response) {
         // The server responded with a status code outside the 2xx range
-        console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         if (error.response.status == 401) {
           window.location.href = "/sign-in?expired=true";
         } else {
@@ -192,11 +192,11 @@ const Dashboard = () => {
         }
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetProjectProgressError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       } else {
         // Something happened in setting up the request that triggered an error
-        console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetProjectProgressError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       }
       setTimeout(() => {
@@ -209,7 +209,7 @@ const Dashboard = () => {
   const getWorkloadDistribution = async () => {
     setGetWorkloadDistributionLoading(true);
     await axios.get(
-      'http://localhost:8081/api/v1/workload-distribution',
+      'http://13.212.104.51:8081/api/v1/workload-distribution',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -218,11 +218,11 @@ const Dashboard = () => {
       }
     ).then((response) => {
       setWorkloadDistribution(response.data);
-      console.log("Workload Distribution : ", response.data);
+      
     }).catch((error) => {
       if (error.response) {
         // The server responded with a status code outside the 2xx range
-        console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         if (error.response.status == 401) {
           window.location.href = "/sign-in?expired=true";
         } else {
@@ -230,11 +230,11 @@ const Dashboard = () => {
         }
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetWorkloadDistributionError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       } else {
         // Something happened in setting up the request that triggered an error
-        console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetWorkloadDistributionError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       }
     })
@@ -244,7 +244,7 @@ const Dashboard = () => {
   const getPriorityTasks = async () => {
     setGetPriorityTasksLoading(true);
     await axios.get(
-      'http://localhost:8081/api/v1/priority-tasks',
+      'http://13.212.104.51:8081/api/v1/priority-tasks',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -253,11 +253,11 @@ const Dashboard = () => {
       }
     ).then((response) => {
       setPriorityTasks(response.data);
-      console.log("Priority Tasks: ", response.data);
+      
     }).catch((error) => {
       if (error.response) {
         // The server responded with a status code outside the 2xx range
-        console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         if (error.response.status == 401) {
           window.location.href = "/sign-in?expired=true";
         } else {
@@ -265,11 +265,11 @@ const Dashboard = () => {
         }
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetPriorityTasksError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       } else {
         // Something happened in setting up the request that triggered an error
-        console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+        
         setGetPriorityTasksError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
       }
       setTimeout(() => {

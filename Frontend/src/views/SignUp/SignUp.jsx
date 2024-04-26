@@ -90,7 +90,7 @@ const SignUp = () => {
 
       if (token) {
         axios.post(
-          `http://localhost:8081/api/v1/invite?token=${token}`, 
+          `http://13.212.104.51:8081/api/v1/invite?token=${token}`, 
           {
             "username": formData.username,
             "email": formData.email,
@@ -104,7 +104,7 @@ const SignUp = () => {
           })
           .then((response) => {
             setSignUpLoading(false);
-            console.log(response);
+            
             if (response.data) {
               setFetchData(response.data); 
               Cookies.set("jwt", response.data.token);
@@ -120,7 +120,7 @@ const SignUp = () => {
           })
           .catch((error) => {
             setSignUpLoading(false);
-            console.log(error);
+            
             if (error.response) {
               setSignUpError(error.response.data);
             } else {
@@ -130,7 +130,7 @@ const SignUp = () => {
         );
       } else {
         axios.post(
-          "http://localhost:8081/api/v1/register", 
+          "http://13.212.104.51:8081/api/v1/register", 
           {
             "username": formData.username,
             "email": formData.email,
@@ -144,7 +144,7 @@ const SignUp = () => {
           })
           .then((response) => {
             setSignUpLoading(false);
-            console.log(response);
+            
             if (response.data) {
               setFetchData(response.data); 
               Cookies.set("jwt", response.data.token);
@@ -160,7 +160,7 @@ const SignUp = () => {
           })
           .catch((error) => {
             setSignUpLoading(false);
-            console.log(error);
+            
             if (error.response) {
               setSignUpError(error.response.data);
             } else {

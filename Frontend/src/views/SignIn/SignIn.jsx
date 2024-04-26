@@ -33,13 +33,13 @@ const SignIn = () => {
   const handleUsernameChange = (e) => {
     e.preventDefault();
     setFormData({ ...formData, username: e.target.value });
-    console.log(formData);
+    
   };
 
   const handlePasswordChange = (e) => {
     e.preventDefault();
     setFormData({ ...formData, password: e.target.value });
-    console.log(formData);
+    
   };
 
   const validatePassword = () => {
@@ -66,7 +66,7 @@ const SignIn = () => {
     errors = validatePassword(formData.password);
     if (Object.keys(errors).length === 0) {
       axios.post(
-        "http://localhost:8081/api/v1/login",
+        "http://13.212.104.51:8081/api/v1/login",
         {
           "username": formData.username,
           "email": "",
@@ -81,13 +81,13 @@ const SignIn = () => {
         .then(function (response) {
           Cookies.set("jwt", response.data.token);
           setCredentialsExist(true);
-          console.log(response.data);
+          
           window.location.href = "/dashboard";
         })
         .catch(function (error) {
           if (error.response) {
             // The server responded with a status code outside the 2xx range
-            console.log('Error response:', error.response + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+            
             if (error.response.status == 401) {
               window.location.href = "/sign-in?expired=true";
             } else if (error.response.status == 409) {
@@ -97,11 +97,11 @@ const SignIn = () => {
             }
           } else if (error.request) {
             // The request was made but no response was received
-            console.log('Error request:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+            
             setSignInError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
           } else {
             // Something happened in setting up the request that triggered an error
-            console.log('Error message:', error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
+            
             setSignInError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
           }
           setTimeout(() => {
