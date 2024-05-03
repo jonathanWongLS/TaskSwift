@@ -99,7 +99,7 @@ const Projects = () => {
         }
 
         axios.post(
-            "https://13.212.104.51:8081/api/v1/project", 
+            "http://13.212.104.51:8081/api/v1/project", 
             addProjectRequestJson,
             {
                 headers: {
@@ -165,7 +165,7 @@ const Projects = () => {
         setGetProjectsLoading(true);
 
         axios.get(
-            "https://13.212.104.51:8081/api/v1/projects", 
+            "http://13.212.104.51:8081/api/v1/projects", 
             {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",

@@ -51,7 +51,7 @@ const Dashboard = () => {
   const getTaskCountByStatus = async () => {
     setGetTaskCountByStatusLoading(true);
     await axios.get(
-      'https://13.212.104.51:8081/api/v1/task-count-status',
+      'http://13.212.104.51:8081/api/v1/task-count-status',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -96,7 +96,7 @@ const Dashboard = () => {
   const getTasksOrderedByCalendarDesc = async () => {
     setGetTasksOrderedByCalendarDescLoading(true);
     await axios.get(
-      'https://13.212.104.51:8081/api/v1/tasks-ordered-by-datetime-desc',
+      'http://13.212.104.51:8081/api/v1/tasks-ordered-by-datetime-desc',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -134,7 +134,7 @@ const Dashboard = () => {
   const getProjectTaskSummary = async () => {
     setGetProjectTaskSummaryLoading(true);
     await axios.get(
-      'https://13.212.104.51:8081/api/v1/project-task-summary',
+      'http://13.212.104.51:8081/api/v1/project-task-summary',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -171,7 +171,7 @@ const Dashboard = () => {
   const getProjectProgress = async () => {
     setGetProjectProgressLoading(true);
     await axios.get(
-      'https://13.212.104.51:8081/api/v1/project-progress',
+      'http://13.212.104.51:8081/api/v1/project-progress',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -209,7 +209,7 @@ const Dashboard = () => {
   const getWorkloadDistribution = async () => {
     setGetWorkloadDistributionLoading(true);
     await axios.get(
-      'https://13.212.104.51:8081/api/v1/workload-distribution',
+      'http://13.212.104.51:8081/api/v1/workload-distribution',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -244,7 +244,7 @@ const Dashboard = () => {
   const getPriorityTasks = async () => {
     setGetPriorityTasksLoading(true);
     await axios.get(
-      'https://13.212.104.51:8081/api/v1/priority-tasks',
+      'http://13.212.104.51:8081/api/v1/priority-tasks',
       {
         headers: {
             "Content-type": "application/json; charset=UTF-8",
