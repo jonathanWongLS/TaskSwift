@@ -27,7 +27,7 @@ const ProjectMemberCard = ({ projectId, projectMemberId, projectMemberName }) =>
     const handleDeleteMember = (projectMemberId) => {
         setConfirmDeleteMemberLoading(true);
         axios.delete(
-            `http://13.212.104.51:8081/api/v1/project/${projectId}/remove/${projectMemberId}`,
+            `https://54.169.240.7:8081/api/v1/project/${projectId}/remove/${projectMemberId}`,
             {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -125,7 +125,7 @@ const ProjectMembers = ({ projectMembers, projectId }) => {
         }
 
         axios.post(
-            `http://13.212.104.51:8081/api/v1/project/${projectId}/assign-users`,
+            `https://54.169.240.7:8081/api/v1/project/${projectId}/assign-users`,
             newProjectAssigneesEmailArr,
             {
                 headers: {

@@ -90,7 +90,7 @@ const SignUp = () => {
 
       if (token) {
         axios.post(
-          `http://13.212.104.51:8081/api/v1/invite?token=${token}`, 
+          `https://54.169.240.7:8081/api/v1/invite?token=${token}`, 
           {
             "username": formData.username,
             "email": formData.email,
@@ -130,7 +130,7 @@ const SignUp = () => {
         );
       } else {
         axios.post(
-          "http://13.212.104.51:8081/api/v1/register", 
+          "https://54.169.240.7:8081/api/v1/register", 
           {
             "username": formData.username,
             "email": formData.email,
@@ -155,7 +155,7 @@ const SignUp = () => {
               sessionStorage.setItem("username", formData.username);
               sessionStorage.setItem("role", "USER");
   
-              // window.location.href = "/dashboard";
+              window.location.href = "/dashboard";
             }
           })
           .catch((error) => {

@@ -25,7 +25,7 @@ const Header = ({ loggedIn, username }) => {
   const handleLogout = () => {
     setLogoutLoading(true);
     axios.get(
-      'http://13.212.104.51:8081/logout',
+      'https://54.169.240.7:8081/logout',
       {
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -34,7 +34,7 @@ const Header = ({ loggedIn, username }) => {
       }
     ).then(() => {
       Cookies.remove("jwt");
-      // window.location.href = "/sign-up";
+      window.location.href = "/sign-up";
     }).catch((error) => {
       if (error.response) {
         // The server responded with a status code outside the 2xx range
