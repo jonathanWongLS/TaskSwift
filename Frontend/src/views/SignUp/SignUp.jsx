@@ -109,11 +109,11 @@ const SignUp = () => {
               setFetchData(response.data); 
               Cookies.set("jwt", response.data.token);
             
-              sessionStorage.removeItem("username");
-              sessionStorage.removeItem("role");
+              window.sessionStorage.removeItem("username");
+              window.sessionStorage.removeItem("role");
   
-              sessionStorage.setItem("username", formData.username);
-              sessionStorage.setItem("role", "USER");
+              window.sessionStorage.setItem("username", formData.username);
+              window.sessionStorage.setItem("role", "USER");
   
               window.location.href = "/dashboard";
             }
@@ -139,7 +139,7 @@ const SignUp = () => {
           },
           {
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+              "Content-type": "application/json; charset=UTF-8"
             }
           })
           .then((response) => {
@@ -149,11 +149,11 @@ const SignUp = () => {
               setFetchData(response.data); 
               Cookies.set("jwt", response.data.token);
             
-              sessionStorage.removeItem("username");
-              sessionStorage.removeItem("role");
+              window.sessionStorage.removeItem("username");
+              window.sessionStorage.removeItem("role");
   
-              sessionStorage.setItem("username", formData.username);
-              sessionStorage.setItem("role", "USER");
+              window.sessionStorage.setItem("username", formData.username);
+              window.sessionStorage.setItem("role", "USER");
   
               window.location.href = "/dashboard";
             }
@@ -178,13 +178,6 @@ const SignUp = () => {
     <>
       { decodedToken ? <Header loggedIn={true} username={decodedToken.sub} /> : <Header loggedIn={false} username={null} /> }
       <div className="Auth-form-container">
-        { signUpLoading ? 
-          <span className="d-flex justify-content-center text-align-center">
-            <Spinner animation="grow" size="sm" />
-          </span> 
-          :
-          null
-        }
         <form noValidate className="Auth-form" onSubmit={handleSignup}>
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign up</h3>
