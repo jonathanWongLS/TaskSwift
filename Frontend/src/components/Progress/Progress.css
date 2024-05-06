@@ -23,5 +23,5 @@
 }
 
 .progress-accordion-header .accordion-button::after {
-    background-image: url(up-arrow.svg) !important;
+    background-image: url(assets/up-arrow.svg) !important;
 }
