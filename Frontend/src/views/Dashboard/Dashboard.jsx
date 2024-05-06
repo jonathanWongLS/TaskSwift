@@ -282,7 +282,7 @@ const Dashboard = () => {
   useEffect(() => {
     document.title = "Dashboard - TaskSwift";
 
-    if (Cookies.get("jwt").length == null) {
+    if (Cookies.get("jwt") == null || Cookies.get("jwt") == undefined) {
       window.location.href = "/sign-in?expired=true";
     }
     else {
