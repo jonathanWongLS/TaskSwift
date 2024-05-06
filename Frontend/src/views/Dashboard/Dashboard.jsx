@@ -282,8 +282,8 @@ const Dashboard = () => {
   useEffect(() => {
     document.title = "Dashboard - TaskSwift";
 
-    if (document.cookie("jwt").length == null) {
-      window.location.href = "/sign-in";
+    if (Cookies.get("jwt").length == null) {
+      window.location.href = "/sign-in?expired=true";
     }
     else {
       getTaskCountByStatus();
