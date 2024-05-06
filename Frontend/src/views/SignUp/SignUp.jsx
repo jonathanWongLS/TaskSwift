@@ -129,18 +129,19 @@ const SignUp = () => {
           }
         );
       } else {
-        axios.post(
-          "https://54.179.131.118:8081/api/v1/register", 
+        fetch(
+          "https://54.179.131.118:8081/api/v1/register",
           {
-            "username": formData.username,
-            "email": formData.email,
-            "password": formData.password,
-            "role": "USER"
-          },
-          {
+            method: "POST",
+            body: {
+              "username": formData.username,
+              "email": formData.email,
+              "password": formData.password,
+              "role": "USER"
+            },
             headers: {
               "Content-type": "application/json; charset=UTF-8"
-            }
+            } 
           })
           .then((response) => {
             setSignUpLoading(false);
