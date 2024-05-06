@@ -17,7 +17,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { LuAxe } from 'react-icons/lu';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
