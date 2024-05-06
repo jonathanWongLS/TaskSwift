@@ -66,7 +66,7 @@ const SignIn = () => {
     errors = validatePassword(formData.password);
     if (Object.keys(errors).length === 0) {
       axios.post(
-        "https://54.169.240.7:8081/api/v1/login",
+        "https://54.179.131.118:8081/api/v1/login",
         {
           "username": formData.username,
           "email": "",

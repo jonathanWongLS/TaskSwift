@@ -296,7 +296,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
         }
 
         axios.post(
-            `https://54.169.240.7:8081/api/v1/add-task/${projectId}`, 
+            `https://54.179.131.118:8081/api/v1/add-task/${projectId}`, 
             {
                 taskToAdd: {
                     taskName: taskDetailsAdd.taskName,
@@ -579,7 +579,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
         }
 
         axios.put(
-            `https://54.169.240.7:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`, 
+            `https://54.179.131.118:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`, 
             {
                 taskToAdd: {
                     taskName: taskDetailsEdit.taskName,
@@ -640,7 +640,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
     const handleDeleteTask = () => {
         setDeleteTaskLoading(true);
         axios.delete(
-            `https://54.169.240.7:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`,
+            `https://54.179.131.118:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`,
             {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
