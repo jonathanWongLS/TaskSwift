@@ -25,7 +25,7 @@ const Header = ({ loggedIn, username }) => {
   const handleLogout = () => {
     setLogoutLoading(true);
     axios.get(
-      'https://54.179.131.118:8081/logout',
+      'https://54.254.30.147:8081/logout',
       {
         headers: {
           "Content-type": "application/json; charset=UTF-8",

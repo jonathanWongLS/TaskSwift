@@ -90,7 +90,7 @@ const SignUp = () => {
 
       if (token) {
         axios.post(
-          `https://54.179.131.118:8081/api/v1/invite?token=${token}`, 
+          `https://54.254.30.147:8081/api/v1/invite?token=${token}`, 
           {
             "username": formData.username,
             "email": formData.email,
@@ -130,7 +130,7 @@ const SignUp = () => {
         );
       } else {
         fetch(
-          "https://54.179.131.118:8081/api/v1/register",
+          "https://54.254.30.147:8081/api/v1/register",
           {
             method: "POST",
             body: {
@@ -140,7 +140,7 @@ const SignUp = () => {
               "role": "USER"
             },
             headers: {
-              "Content-type": "application/json; charset=UTF-8"
+              "Content-Type": "application/json; charset=UTF-8"
             } 
           })
           .then((response) => {

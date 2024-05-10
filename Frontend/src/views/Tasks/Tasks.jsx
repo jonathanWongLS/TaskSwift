@@ -83,7 +83,7 @@ const Tasks = () => {
     }
 
     axios.put(
-      `https://54.179.131.118:8081/api/v1/project/${projectId}`, 
+      `https://54.254.30.147:8081/api/v1/project/${projectId}`, 
       updatedProjectRequest,
       {
           headers: {
@@ -142,7 +142,7 @@ const Tasks = () => {
     }
 
     axios.put(
-      `https://54.179.131.118:8081/api/v1/project/${projectId}`, 
+      `https://54.254.30.147:8081/api/v1/project/${projectId}`, 
       updatedProjectRequest,
       {
         headers: {
@@ -186,7 +186,7 @@ const Tasks = () => {
     if (searchParams.get("projectId")) {  
       setGetProjectLoading(true);
       axios.get(
-        `https://54.179.131.118:8081/api/v1/project/${ projectId }`,
+        `https://54.254.30.147:8081/api/v1/project/${ projectId }`,
         {
           headers: {
               "Content-type": "application/json; charset=UTF-8",
