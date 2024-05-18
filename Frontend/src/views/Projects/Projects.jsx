@@ -26,12 +26,11 @@ const ProjectCard = ({ projectId, title, noOfAssignees, link }) => {
 
     const projectCardOnClick = () => {
         window.location.href = link;
-        
     }
 
     return (
-        <Card id={ projectId } className="project-card" onClick={ projectCardOnClick } style={{ cursor: "pointer" }}>
-            <Card.Title className="project-card-title">{ title }</Card.Title>
+        <Card id={projectId} className="project-card" onClick={projectCardOnClick} style={{ cursor: "pointer" }}>
+            <Card.Title className="project-card-title">{title}</Card.Title>
             <Card.Body className="project-card-body">
                 <div className="project-card-img">
                     <img src="./project-placeholder-image.jpg" alt="Project placeholder image" width="100%" height={200} />
@@ -49,7 +48,7 @@ const ProjectCard = ({ projectId, title, noOfAssignees, link }) => {
 
 const Projects = () => {
     const { decodedToken, isExpired } = useJwt(Cookies.get("jwt"));
-    
+
     const [projectCards, setProjectCards] = useState([])
     const [showAddProjectModal, setShowAddProjectModal] = useState(false);
     const [addProjectRequest, setAddProjectRequest] = useState({
@@ -61,7 +60,8 @@ const Projects = () => {
     const [addProjectLoading, setAddProjectLoading] = useState(false);
     const [getProjectsError, setGetProjectsError] = useState(null);
     const [addProjectError, setAddProjectError] = useState(null);
-    
+    const [projectSearch, setProjectSearch] = useState("");
+
     const handleOpenAddProjectModal = () => {
         setShowAddProjectModal(true);
     }
@@ -69,7 +69,7 @@ const Projects = () => {
     const handleCloseAddProjectModal = () => {
         setShowAddProjectModal(false);
     }
-    
+
     const handleSaveAddProjectModal = () => {
         setAddProjectLoading(true);
         let projectAssigneesEmailArr;
@@ -99,22 +99,21 @@ const Projects = () => {
         }
 
         axios.post(
-            "https://54.254.30.147:8081/api/v1/project", 
+            "http://<Insert API URL here>/api/v1/project",
             addProjectRequestJson,
             {
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8",
+                    "Content-Type": "application/json; charset=UTF-8",
                     "Authorization": "Bearer " + Cookies.get("jwt")
                 }
             })
             .then((response) => {
-                
                 location.reload();
             })
             .catch((error) => {
                 if (error.response) {
                     // The server responded with a status code outside the 2xx range
-                    
+
                     if (error.response.status == 401) {
                         window.location.href = "/sign-in?expired=true";
                     } else {
@@ -122,11 +121,11 @@ const Projects = () => {
                     }
                 } else if (error.request) {
                     // The request was made but no response was received
-                    
+
                     setAddProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
                 } else {
                     // Something happened in setting up the request that triggered an error
-                    
+
                     setAddProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
                 }
                 setTimeout(() => {
@@ -146,39 +145,42 @@ const Projects = () => {
     const handleProjectUsernameChange = (e) => {
         e.preventDefault();
         setAddProjectRequest({ ...addProjectRequest, projectName: e.target.value });
-        
+
     };
 
     const handleProjectDescChange = (e) => {
         e.preventDefault();
         setAddProjectRequest({ ...addProjectRequest, projectDesc: e.target.value });
-        
+
     };
 
     const handleProjectAssigneeEmail = (e) => {
         e.preventDefault();
-        setAddProjectRequest({ ...addProjectRequest, projectAssigneesEmail: e.target.value})
-        
+        setAddProjectRequest({ ...addProjectRequest, projectAssigneesEmail: e.target.value })
+
+    };
+
+    const handleProjectSearchChange = (e) => {
+        e.preventDefault();
+        setProjectSearch(e.target.value);
     };
 
     useEffect(() => {
         setGetProjectsLoading(true);
 
         axios.get(
-            "https://54.254.30.147:8081/api/v1/projects", 
+            "http://<Insert API URL here>/api/v1/projects",
             {
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8",
+                    "Content-Type": "application/json; charset=UTF-8",
                     "Authorization": "Bearer " + Cookies.get("jwt")
                 }
             }
         ).then((response) => {
             setProjectCards(response.data);
-            
         }).catch((error) => {
             if (error.response) {
                 // The server responded with a status code outside the 2xx range
-                
                 if (error.response.status == 401) {
                     window.location.href = "/sign-in?expired=true";
                 } else {
@@ -186,43 +188,43 @@ const Projects = () => {
                 }
             } else if (error.request) {
                 // The request was made but no response was received
-                
+
                 setGetProjectsError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             } else {
                 // Something happened in setting up the request that triggered an error
-                
+
                 setGetProjectsError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
             }
             setTimeout(() => {
                 setGetProjectsError(null);
             }, 6000);
         })
-        .finally(() => setGetProjectsLoading(false));
+            .finally(() => setGetProjectsLoading(false));
     }, [])
 
 
     return (
         <>
-            { decodedToken ? <Header loggedIn={ true } username={ decodedToken.sub } /> : <Header loggedIn={ false } username={null} /> }
+            {decodedToken ? <Header loggedIn={true} username={decodedToken.sub} /> : <Header loggedIn={false} username={null} />}
             <div className="projects-container">
-                
-                <AlertBox errorMessage={ getProjectsError } />
-                <AlertBox errorMessage={ addProjectError } />
-                
+
+                <AlertBox errorMessage={getProjectsError} />
+                <AlertBox errorMessage={addProjectError} />
+
                 <div className="projects-top-container">
-                    <h3>Hi, { decodedToken ? decodedToken.sub : "-" }!</h3>
-                    <div className="projects-search-add-project">                    
+                    <h3>Hi, {decodedToken ? decodedToken.sub : "-"}!</h3>
+                    <div className="projects-search-add-project">
                         <InputGroup className="projects-input-group">
-                            <Form.Control 
+                            <Form.Control
                                 placeholder="Search projects ..."
                                 aria-label="Search projects ..."
+                                type="text"
+                                value={projectSearch}
+                                onChange={handleProjectSearchChange}
                             />
-                            <Button variant="outline-secondary">
-                                <IoMdSearch />
-                            </Button>
                         </InputGroup>
-                        <Button className="add-project-btn" onClick={ handleOpenAddProjectModal }><GrAdd />{' '}Add Project</Button>
-                        <Modal dialogClassName="modal-add-project" show={ showAddProjectModal } onHide={ handleCloseAddProjectModal }>
+                        <Button className="add-project-btn" onClick={handleOpenAddProjectModal}><GrAdd />{' '}Add Project</Button>
+                        <Modal dialogClassName="modal-add-project" show={showAddProjectModal} onHide={handleCloseAddProjectModal}>
                             <Modal.Header>
                                 <Modal.Title>Add New Project</Modal.Title>
                             </Modal.Header>
@@ -232,23 +234,23 @@ const Projects = () => {
                                         <Form>
                                             <Form.Group className="mb-3 project-name-group">
                                                 <Form.Label>
-                                                    <h5>Project Name</h5> 
+                                                    <h5>Project Name</h5>
                                                 </Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
-                                                    value={ addProjectRequest.projectName } 
-                                                    onChange={ handleProjectUsernameChange }
+                                                <Form.Control
+                                                    type="text"
+                                                    value={addProjectRequest.projectName}
+                                                    onChange={handleProjectUsernameChange}
                                                 />
                                             </Form.Group>
                                             <Form.Group className="mb-3 project-desc-group">
                                                 <Form.Label>
                                                     <h5>Project Description</h5>
                                                 </Form.Label>
-                                                <Form.Control 
-                                                    as="textarea" 
+                                                <Form.Control
+                                                    as="textarea"
                                                     rows={3}
-                                                    value={ addProjectRequest.projectDesc }
-                                                    onChange={ handleProjectDescChange }
+                                                    value={addProjectRequest.projectDesc}
+                                                    onChange={handleProjectDescChange}
                                                 />
                                             </Form.Group>
                                         </Form>
@@ -258,11 +260,11 @@ const Projects = () => {
                                             <Form.Label>
                                                 <h5>Add Project Members</h5>
                                             </Form.Label>
-                                            <Form.Control 
-                                                type="text" 
-                                                placeholder="user@email.com, user2@email.com, ..." 
-                                                value={ addProjectRequest.projectAssigneesEmail }
-                                                onChange={ handleProjectAssigneeEmail }
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="user@email.com, user2@email.com, ..."
+                                                value={addProjectRequest.projectAssigneesEmail}
+                                                onChange={handleProjectAssigneeEmail}
                                             />
                                             <Form.Text muted>Enter multiple comma-separated email addresses</Form.Text>
                                         </Form.Group>
@@ -270,7 +272,7 @@ const Projects = () => {
                                 </Row>
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="primary" onClick={ handleSaveAddProjectModal }>
+                                <Button variant="primary" onClick={handleSaveAddProjectModal}>
                                     Save {''}
                                     {
                                         addProjectLoading ? (
@@ -280,7 +282,7 @@ const Projects = () => {
                                         )
                                     }
                                 </Button>
-                                <Button variant="danger" onClick={ handleCancelAddProjectModal }>
+                                <Button variant="danger" onClick={handleCancelAddProjectModal}>
                                     Cancel
                                 </Button>
                             </Modal.Footer>
@@ -291,26 +293,40 @@ const Projects = () => {
                     {
                         getProjectsLoading ? (
                             <p>Loading projects...</p>
-                        ) :  
-                        (
-                            projectCards.length <= 0 ? (
-                                <p>No projects yet.</p>
-                            ) : (
-                                projectCards
-                                .sort((a, b) => a.projectId > b.projectId ? 1 : -1)
-                                .map((projectCardDetails, key) => {
-                                    return (
-                                        <ProjectCard
-                                            key={key} 
-                                            projectId={projectCardDetails.projectId}
-                                            title={projectCardDetails.projectName} 
-                                            noOfAssignees={projectCardDetails.assignedUsers.length} 
-                                            link={`/tasks?projectId=${projectCardDetails.projectId}`}
-                                        />
-                                    );
-                                })
+                        ) :
+                            (
+                                projectCards.length <= 0 ? (
+                                    <p>No projects yet.</p>
+                                ) : (
+                                    (() => {
+                                        // Filter projects that matches projects' name based on given search value
+                                        const filteredProjects = projectCards.filter((project) => {
+                                            if (projectSearch.length > 0) {
+                                                return project.projectName.toLowerCase().includes(projectSearch.toLowerCase());
+                                            } else {
+                                                return true; // Include all projects if no search term is provided
+                                            }
+                                        });
+
+                                        // Inform user that projects with name that matches filter value do not exist
+                                        if (filteredProjects.length <= 0) {
+                                            return <p>No projects with this filter value...</p>;
+                                        }
+
+                                        return filteredProjects
+                                            .sort((a, b) => (a.projectId > b.projectId ? 1 : -1)) // Sort projects by project ID in ascending order
+                                            .map((projectCardDetails, key) => (
+                                                <ProjectCard
+                                                    key={key}
+                                                    projectId={projectCardDetails.projectId}
+                                                    title={projectCardDetails.projectName}
+                                                    noOfAssignees={projectCardDetails.assignedUsers.length}
+                                                    link={`/tasks?projectId=${projectCardDetails.projectId}`}
+                                                />
+                                            ));
+                                    })()
+                                )
                             )
-                        )
                     }
                 </div>
             </div>
