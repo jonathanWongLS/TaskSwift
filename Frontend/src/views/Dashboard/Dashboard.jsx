@@ -51,10 +51,10 @@ const Dashboard = () => {
   const getTaskCountByStatus = async () => {
     setGetTaskCountByStatusLoading(true);
     await axios.get(
-      'https://54.254.30.147:8081/api/v1/task-count-status',
+      'http://<Insert API URL here>/api/v1/task-count-status',
       {
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
             "Authorization": "Bearer " + Cookies.get("jwt")
         }
       }
@@ -73,7 +73,7 @@ const Dashboard = () => {
         // The server responded with a status code outside the 2xx range
         
         if (error.response.status == 401) {
-          window.location.href = "/sign-in?expired=true";
+          // // window.location.href = "/sign-in?expired=true";
         } else {
           setGetTaskCountByStatusError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
@@ -96,10 +96,10 @@ const Dashboard = () => {
   const getTasksOrderedByCalendarDesc = async () => {
     setGetTasksOrderedByCalendarDescLoading(true);
     await axios.get(
-      'https://54.254.30.147:8081/api/v1/tasks-ordered-by-datetime-desc',
+      'http://<Insert API URL here>/api/v1/tasks-ordered-by-datetime-desc',
       {
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
             "Authorization": "Bearer " + Cookies.get("jwt")
         }
       }
@@ -111,7 +111,7 @@ const Dashboard = () => {
         // The server responded with a status code outside the 2xx range
         
         if (error.response.status == 401) {
-          window.location.href = "/sign-in?expired=true";
+          // // window.location.href = "/sign-in?expired=true";
         } else {
           setGetTasksOrderedByCalendarDescError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
@@ -134,10 +134,10 @@ const Dashboard = () => {
   const getProjectTaskSummary = async () => {
     setGetProjectTaskSummaryLoading(true);
     await axios.get(
-      'https://54.254.30.147:8081/api/v1/project-task-summary',
+      'http://<Insert API URL here>/api/v1/project-task-summary',
       {
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
             "Authorization": "Bearer " + Cookies.get("jwt")
         }
       }
@@ -148,7 +148,7 @@ const Dashboard = () => {
         // The server responded with a status code outside the 2xx range
         
         if (error.response.status == 401) {
-          window.location.href = "/sign-in?expired=true";
+          // // window.location.href = "/sign-in?expired=true";
         } else {
           setGetProjectTaskSummaryError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
@@ -171,10 +171,10 @@ const Dashboard = () => {
   const getProjectProgress = async () => {
     setGetProjectProgressLoading(true);
     await axios.get(
-      'https://54.254.30.147:8081/api/v1/project-progress',
+      'http://<Insert API URL here>/api/v1/project-progress',
       {
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
             "Authorization": "Bearer " + Cookies.get("jwt")
         }
       }
@@ -186,7 +186,7 @@ const Dashboard = () => {
         // The server responded with a status code outside the 2xx range
         
         if (error.response.status == 401) {
-          window.location.href = "/sign-in?expired=true";
+          // window.location.href = "/sign-in?expired=true";
         } else {
           setGetProjectProgressError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
@@ -209,10 +209,10 @@ const Dashboard = () => {
   const getWorkloadDistribution = async () => {
     setGetWorkloadDistributionLoading(true);
     await axios.get(
-      'https://54.254.30.147:8081/api/v1/workload-distribution',
+      'http://<Insert API URL here>/api/v1/workload-distribution',
       {
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
             "Authorization": "Bearer " + Cookies.get("jwt")
         }
       }
@@ -224,7 +224,7 @@ const Dashboard = () => {
         // The server responded with a status code outside the 2xx range
         
         if (error.response.status == 401) {
-          window.location.href = "/sign-in?expired=true";
+          // window.location.href = "/sign-in?expired=true";
         } else {
           setGetWorkloadDistributionError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
@@ -244,10 +244,10 @@ const Dashboard = () => {
   const getPriorityTasks = async () => {
     setGetPriorityTasksLoading(true);
     await axios.get(
-      'https://54.254.30.147:8081/api/v1/priority-tasks',
+      'http://<Insert API URL here>/api/v1/priority-tasks',
       {
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
             "Authorization": "Bearer " + Cookies.get("jwt")
         }
       }
@@ -259,7 +259,7 @@ const Dashboard = () => {
         // The server responded with a status code outside the 2xx range
         
         if (error.response.status == 401) {
-          window.location.href = "/sign-in?expired=true";
+          // window.location.href = "/sign-in?expired=true";
         } else {
           setGetPriorityTasksError(error.response.data + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
@@ -283,7 +283,7 @@ const Dashboard = () => {
     document.title = "Dashboard - TaskSwift";
 
     if (Cookies.get("jwt") == null || Cookies.get("jwt") == undefined) {
-      window.location.href = "/sign-in?expired=true";
+      // window.location.href = "/sign-in?expired=true";
     }
     else {
       getTaskCountByStatus();

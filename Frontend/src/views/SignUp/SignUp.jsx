@@ -9,6 +9,7 @@ import "./SignUp.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useJwt } from "react-jwt";
+import { Button } from "react-bootstrap";
 
 const SignUp = () => {
   const { decodedToken, isExpired } = useJwt(Cookies.get("jwt"));
@@ -30,7 +31,7 @@ const SignUp = () => {
   };
 
   const handleUsernameChange = (e) => {
-    setFormData({...formData, username: e.target.value});
+    setFormData({ ...formData, username: e.target.value });
   }
 
   const handleEmailChange = (e) => {
@@ -75,7 +76,8 @@ const SignUp = () => {
     return errors;
   };
 
-  const handleSignup = () => {
+  const handleSignup = (e) => {
+    e.preventDefault();
     var errors = {};
     setSignUpError(null);
     setFormErrors({});
@@ -90,7 +92,7 @@ const SignUp = () => {
 
       if (token) {
         axios.post(
-          `https://54.254.30.147:8081/api/v1/invite?token=${token}`, 
+          `http://<Insert API URL here>/api/v1/invite?token=${token}`,
           {
             "username": formData.username,
             "email": formData.email,
@@ -99,73 +101,75 @@ const SignUp = () => {
           },
           {
             headers: {
-              "Content-type": "application/json; charset=UTF-8"
+              "Content-Type": "application/json; charset=UTF-8"
             }
           })
           .then((response) => {
             setSignUpLoading(false);
-            
+
             if (response.data) {
-              setFetchData(response.data); 
+              setFetchData(response.data);
               Cookies.set("jwt", response.data.token);
-            
+
               window.sessionStorage.removeItem("username");
               window.sessionStorage.removeItem("role");
-  
+
               window.sessionStorage.setItem("username", formData.username);
               window.sessionStorage.setItem("role", "USER");
-  
+
               window.location.href = "/dashboard";
             }
           })
           .catch((error) => {
             setSignUpLoading(false);
-            
+
             if (error.response) {
               setSignUpError(error.response.data);
             } else {
-              setSignUpError("An error occurred. Please reload this page.")  
+              setSignUpError("An error occurred. Please reload this page.")
             }
           }
-        );
+          );
       } else {
-        fetch(
-          "https://54.254.30.147:8081/api/v1/register",
+        axios.post(
+          "http://<Insert API URL here>/api/v1/register",
           {
-            method: "POST",
-            body: {
-              "username": formData.username,
-              "email": formData.email,
-              "password": formData.password,
-              "role": "USER"
-            },
+            "username": formData.username,
+            "email": formData.email,
+            "password": formData.password,
+            "role": "USER"
+          },
+          {
             headers: {
               "Content-Type": "application/json; charset=UTF-8"
-            } 
+            }
           })
           .then((response) => {
             setSignUpLoading(false);
-            
+
             if (response.data) {
-              setFetchData(response.data); 
+              setFetchData(response.data);
               Cookies.set("jwt", response.data.token);
-            
+
+              sessionStorage.removeItem("username");
+              sessionStorage.removeItem("role");
               window.sessionStorage.removeItem("username");
               window.sessionStorage.removeItem("role");
-  
+
+              sessionStorage.setItem("username", formData.username);
+              sessionStorage.setItem("role", "USER");
               window.sessionStorage.setItem("username", formData.username);
               window.sessionStorage.setItem("role", "USER");
-  
+
               window.location.href = "/dashboard";
             }
           })
           .catch((error) => {
             setSignUpLoading(false);
-            
             if (error.response) {
               setSignUpError(error.response.data);
             } else {
-              setSignUpError("An error occurred. Please reload this page.")  
+              setSignUpError("An error occurred. Please reload this page.")
             }
           }
         );
@@ -177,9 +181,9 @@ const SignUp = () => {
 
   return (
     <>
-      { decodedToken ? <Header loggedIn={true} username={decodedToken.sub} /> : <Header loggedIn={false} username={null} /> }
+      {decodedToken ? <Header loggedIn={true} username={decodedToken.sub} /> : <Header loggedIn={false} username={null} />}
       <div className="Auth-form-container">
-        <form noValidate className="Auth-form" onSubmit={handleSignup}>
+        <form noValidate className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign up</h3>
             <div className="form-group username mt-3">
@@ -233,23 +237,23 @@ const SignUp = () => {
               </div>
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary submit-btn">
+              <Button type="submit" onClick={handleSignup} className="btn btn-primary submit-btn">
                 Submit
                 {
-                  signUpLoading ? 
-                  <span className="d-flex justify-content-center text-align-center">
-                    <Spinner animation="grow" size="sm" />
-                  </span> 
-                  :
-                  null
+                  signUpLoading ?
+                    <span className="d-flex justify-content-center text-align-center">
+                      <Spinner animation="grow" size="sm" />
+                    </span>
+                    :
+                    null
                 }
-              </button>
+              </Button>
             </div>
             <p className="forgot-password text-right mt-2">
               <a href="/sign-in">Already have an account?</a>
             </p>
           </div>
-          { signUpError ? <p className="error d-flex justify-content-center">{signUpError}</p> : null }
+          {signUpError ? <p className="error d-flex justify-content-center">{signUpError}</p> : null}
         </form>
       </div>
     </>

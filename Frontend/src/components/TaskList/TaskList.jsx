@@ -296,7 +296,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
         }
 
         axios.post(
-            `https://54.254.30.147:8081/api/v1/add-task/${projectId}`, 
+            `http://<Insert API URL here>/api/v1/add-task/${projectId}`, 
             {
                 taskToAdd: {
                     taskName: taskDetailsAdd.taskName,
@@ -310,8 +310,8 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
             },
             {
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                    "Authorization": "Bearer " + Cookies.get("jwt")
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Authorization": "Bearer " + Cookies.get("jwt"),
                 }
             }
         ).then((response) => {
@@ -579,7 +579,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
         }
 
         axios.put(
-            `https://54.254.30.147:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`, 
+            `http://<Insert API URL here>/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`, 
             {
                 taskToAdd: {
                     taskName: taskDetailsEdit.taskName,
@@ -593,7 +593,7 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
             },
             {
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8",
+                    "Content-Type": "application/json; charset=UTF-8",
                     "Authorization": "Bearer " + Cookies.get("jwt")
                 }
             }
@@ -640,10 +640,10 @@ const TaskList = ({ tasks, projectId, projectMembers }) => {
     const handleDeleteTask = () => {
         setDeleteTaskLoading(true);
         axios.delete(
-            `https://54.254.30.147:8081/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`,
+            `http://<Insert API URL here>/api/v1/project/${projectId}/task/${taskDetailsEdit.taskId}`,
             {
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8",
+                    "Content-Type": "application/json; charset=UTF-8",
                     "Authorization": "Bearer " + Cookies.get("jwt")
                 }
             }

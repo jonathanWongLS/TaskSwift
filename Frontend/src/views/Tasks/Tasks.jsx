@@ -83,11 +83,11 @@ const Tasks = () => {
     }
 
     axios.put(
-      `https://54.254.30.147:8081/api/v1/project/${projectId}`, 
+      `http://<Insert API URL here>/api/v1/project/${projectId}`, 
       updatedProjectRequest,
       {
           headers: {
-              "Content-type": "application/json; charset=UTF-8",
+              "Content-Type": "application/json; charset=UTF-8",
               "Authorization": "Bearer " + Cookies.get("jwt")
           }
       })
@@ -98,7 +98,6 @@ const Tasks = () => {
       .catch(function (error) {
         if (error.response) {
           // The server responded with a status code outside the 2xx range
-          
           if (error.response.status == 401) {
             window.location.href = "/sign-in?expired=true";
           } else {
@@ -106,11 +105,9 @@ const Tasks = () => {
           }
         } else if (error.request) {
           // The request was made but no response was received
-          
           setUpdateProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         } else {
           // Something happened in setting up the request that triggered an error
-          
           setUpdateProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
         setTimeout(() => {
@@ -142,17 +139,16 @@ const Tasks = () => {
     }
 
     axios.put(
-      `https://54.254.30.147:8081/api/v1/project/${projectId}`, 
+      `http://<Insert API URL here>/api/v1/project/${projectId}`, 
       updatedProjectRequest,
       {
         headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
             "Authorization": "Bearer " + Cookies.get("jwt")
         }
       })
       .then((response) => {
-          
-          setProjectDesc(newProjectDesc);
+        setProjectDesc(newProjectDesc);
       })
       .catch((error) => {
         if (error.response) {
@@ -186,16 +182,15 @@ const Tasks = () => {
     if (searchParams.get("projectId")) {  
       setGetProjectLoading(true);
       axios.get(
-        `https://54.254.30.147:8081/api/v1/project/${ projectId }`,
+        `http://<Insert API URL here>/api/v1/project/${ projectId }`,
         {
           headers: {
-              "Content-type": "application/json; charset=UTF-8",
-              "Authorization": "Bearer " + Cookies.get("jwt")
+            "Content-Type": "application/json; charset=UTF-8",
+            "Authorization": "Bearer " + Cookies.get("jwt")
           }
         },
       )
       .then((response) => {
-        
         setProjectData(response.data);
         setProjectName(response.data.projectName);
         setProjectDesc(response.data.projectDescription);
@@ -203,7 +198,6 @@ const Tasks = () => {
       .catch((error) => {
         if (error.response) {
           // The server responded with a status code outside the 2xx range
-          
           if (error.response.status == 401) {
             window.location.href = "/sign-in?expired=true";
           } else {
@@ -211,11 +205,9 @@ const Tasks = () => {
           }
         } else if (error.request) {
           // The request was made but no response was received
-          
           setGetProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         } else {
           // Something happened in setting up the request that triggered an error
-          
           setGetProjectError(error.message + ". Try again or contact TaskSwift at noreply.taskswift@gmail.com.");
         }
         setTimeout(() => {

@@ -27,10 +27,10 @@ const ProjectMemberCard = ({ projectId, projectMemberId, projectMemberName }) =>
     const handleDeleteMember = (projectMemberId) => {
         setConfirmDeleteMemberLoading(true);
         axios.delete(
-            `https://54.254.30.147:8081/api/v1/project/${projectId}/remove/${projectMemberId}`,
+            `http://<Insert API URL here>/api/v1/project/${projectId}/remove/${projectMemberId}`,
             {
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8",
+                    "Content-Type": "application/json; charset=UTF-8",
                     "Authorization": "Bearer " + Cookies.get("jwt")
                 }
             }
@@ -125,16 +125,15 @@ const ProjectMembers = ({ projectMembers, projectId }) => {
         }
 
         axios.post(
-            `https://54.254.30.147:8081/api/v1/project/${projectId}/assign-users`,
+            `http://<Insert API URL here>/api/v1/project/${projectId}/assign-users`,
             newProjectAssigneesEmailArr,
             {
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8",
+                    "Content-Type": "application/json; charset=UTF-8",
                     "Authorization": "Bearer " + Cookies.get("jwt")
                 }
             }
         ).then((response) => {
-            
             location.reload();
         })
         .catch((error) => {
@@ -170,7 +169,7 @@ const ProjectMembers = ({ projectMembers, projectId }) => {
             <AlertBox errorMessage={ addMemberError } />
             <h4 className="project-members-title">Members</h4>
             <div className="project-members-list">
-                {
+                {   
                     projectMembers.map((projectMember, index) => {
                         return (
                             <ProjectMemberCard 
