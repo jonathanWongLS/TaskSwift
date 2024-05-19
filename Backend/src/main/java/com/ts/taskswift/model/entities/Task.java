@@ -45,7 +45,7 @@ public class Task {
     @JsonIgnore
     private Project project;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_task",
             joinColumns = @JoinColumn(name = "task_id"),

@@ -1,5 +1,4 @@
 package com.ts.taskswift.model.entities;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ts.taskswift.model.enums.Role;
 import jakarta.persistence.*;
@@ -38,12 +37,12 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @ManyToMany(mappedBy = "assignedUsers", fetch = FetchType.LAZY)
     @JsonIgnore
-    @ManyToMany(mappedBy = "assignedUsers")
     private Set<Project> assignedProjects = new HashSet<>();
 
+    @ManyToMany(mappedBy = "assignedUsers", fetch = FetchType.LAZY)
     @JsonIgnore
-    @ManyToMany(mappedBy = "assignedUsers")
     private Set<Task> assignedTasks = new HashSet<>();
 
     @OneToMany(mappedBy = "user")

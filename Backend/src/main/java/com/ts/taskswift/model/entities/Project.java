@@ -1,5 +1,6 @@
 package com.ts.taskswift.model.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
+@JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="projectId")
 @Entity
 @Table(name = "project")
 @Getter
@@ -23,7 +25,7 @@ public class Project {
     @Column(name = "description", nullable = false)
     private String projectDescription;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Task> tasks;
 
     @ManyToMany
