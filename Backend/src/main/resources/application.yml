@@ -1,10 +1,10 @@
 server:
-  port: 80
+  port: 8081
 spring:
   application:
     name: taskswift
   datasource:
-    url: jdbc:postgresql://<postgresql_database_endpoint>:5432/taskswift
+    url: jdbc:postgresql://ts-database-v1.cj48agmumj7n.ap-southeast-1.rds.amazonaws.com:5432/taskswift
     username:
     password:
   jpa:

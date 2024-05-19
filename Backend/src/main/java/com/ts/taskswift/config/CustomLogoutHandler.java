@@ -2,7 +2,6 @@ package com.ts.taskswift.config;
 
 import com.ts.taskswift.model.entities.Token;
 import com.ts.taskswift.repository.TokenRepository;
-import com.ts.taskswift.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,7 @@ public class CustomLogoutHandler implements LogoutHandler {
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
 
         // Remove the token
-        if (storedToken != null) {
+        if (token != null) {
             tokenRepository.delete(storedToken);
         }
     }
