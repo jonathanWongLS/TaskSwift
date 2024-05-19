@@ -31,7 +31,6 @@ public class ProjectController {
      * @param authorizationHeader [Request Header] the authorization header containing the JWT token
      * @return ResponseEntity with status 200 and a Set of projects if successful
      */
-    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/projects")
     public ResponseEntity<?> getUserProjects(
             @RequestHeader("Authorization") String authorizationHeader
